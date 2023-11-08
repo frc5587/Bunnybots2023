@@ -70,7 +70,7 @@ public final class Constants {
         public static final boolean DRIVE_LIMIT_ENABLED = true;
         public static final int RUMBLE_THRESHOLD = 35;
         
-        public static final double SLEW_RATE = 3; // m/s^2 // TODO CHANGE AFTER ARM IS ADDED
+        public static final double SLEW_RATE = 3; // m/s^2 // 
 
         public static final int ANGLE_CONT_LIMIT = 25;
         public static final int ANGLE_PEAK_LIMIT = 40;
