@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+
 import org.frc5587.lib.pid.FPID;
 import org.frc5587.lib.subsystems.ElevatorBase.ElevatorConstants;
 
@@ -11,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -164,7 +166,7 @@ public final class Constants {
     public static final SupplyCurrentLimitConfiguration supplyLimit = new SupplyCurrentLimitConfiguration(true, 40, 35, 1);
     public static final StatorCurrentLimitConfiguration statorLimit = new StatorCurrentLimitConfiguration(true, 40, 35, 1);
 
-    public static final double gearing = 0.1;
+    public static final double gearing = 0.1; 
     public static final double rtm = 10;
     public static final double[] softLimits = {0, 1};
     public static final int zeroOffset = 10;
@@ -177,5 +179,22 @@ public final class Constants {
     public static final ElevatorFeedforward ff = new ElevatorFeedforward(1, 0, 0, 0);
     public static final ElevatorConstants constants = new ElevatorConstants(gearing, rtm, softLimits, zeroOffset, cpr,
             switchPort, switchesInverted, pid, ff);
+  }
+
+  public static final class ArmConstants {
+    public static final int MOTOR_ID = 20;
+    public static final boolean MOTOR_INVERTED = false;
+
+    public static final double FRONT_SETPOINT = Math.toRadians(0);
+    public static final double REAR_SETPOINT = Math.toRadians(160);
+    
+    public static final double GEARING = 64;
+    public static final double[] SOFT_LIMITS = {Math.toRadians(0), Math.toRadians(180)};
+    public static final int ZERO_OFFSET = 0;
+    public static final int ENCODER_CPR = 42;
+    public static final int[] SWITCH_PORTS = {1};
+    public static final boolean[] SWITCH_INVERTIONS = {false, false};
+    public static final ProfiledPIDController PID = new ProfiledPIDController(6.9012, 0, 1.5006, new Constraints(5, 50));
+    public static final ArmFeedforward FF = new ArmFeedforward(0.34905, -0.032397, 1.23, 0.083365);
   }
 }
