@@ -7,9 +7,7 @@ package frc.robot;
 import org.frc5587.lib.pid.FPID;
 import org.frc5587.lib.subsystems.ElevatorBase.ElevatorConstants;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
@@ -106,9 +104,9 @@ public final class Constants {
         /** Radians per Second */
         public static final double MAX_ANGULAR_VELOCITY = Math.PI;//6.;
 
-        /* Neutral Modes */
-        public static final NeutralMode ANGLE_NEUTRAL_MODE = NeutralMode.Coast;
-        public static final NeutralMode DRIVE_NEUTRAL_MODE = NeutralMode.Brake;
+        /* Idle Modes */
+        public static final IdleMode ANGLE_IDLE_MODE = IdleMode.kCoast;
+        public static final IdleMode DRIVE_IDLE_MODE = IdleMode.kBrake;
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
@@ -160,28 +158,54 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static final class ElevConstants {
-    public static final boolean motorInverted = false;
-    public static final SupplyCurrentLimitConfiguration supplyLimit = new SupplyCurrentLimitConfiguration(true, 40, 35, 1);
-    public static final StatorCurrentLimitConfiguration statorLimit = new StatorCurrentLimitConfiguration(true, 40, 35, 1);
+  /* Intake Constants */
+  public static final class IntakeConstants {
+    // motor ports
+    public static final int RIGHT_MOTOR = 40;
+    public static final int LEFT_MOTOR = 41;
+    
+    public static final boolean RIGHT_MOTOR_INVERTED = false;
+    public static final boolean LEFT_MOTOR_INVERTED = true;
+    // motor limits
+    public static final int STALL_LIMIT = 20;
+    public static final int FREE_LIMIT = 25;
+    // motor speeds
+    public static final double THROTTLE_FORWARD = 0.75;
+    public static final double THROTTLE_REVERSE = 0.25;
+    public static final double LEFT_VELOCITY_THRESHOLD = 10;  // rps
+    public static final double EJECT_CRATE_RUNTIME = 0.5; // seconds
+    public static final double RIGHT_VELOCITY_THRESHOLD = 500;  // rps
+  
+    public static final double HOLD = 0.05;
+  
+    public static final int SOLENOID_ID = 0;
+    public static final int SOLENOID_ID2 = 1;
+  }
 
-    public static final double gearing = 0.1; 
-    public static final double rtm = 10;
-    public static final double[] softLimits = {0, 1};
-    public static final int zeroOffset = 10;
-    public static final int cpr = 2048;
-    public static final int[] switchPort = {0, 1};
-    public static final boolean[] switchesInverted = {false, false};
-    public static final ProfiledPIDController pid = new ProfiledPIDController(1, 0, 0, 
+  public static final class ElevConstants {
+    public static final boolean MOTOR_INVERTED = false;
+    public static final int SUPPLY_LIMIT = 40;
+    public static final int STATOR_LIMIT = 40;
+
+    public static final int LEFT_MOTOR = 20;
+    public static final int RIGHT_MOTOR = 21;
+    public static final double GEARING = 0.1; 
+    public static final double RTM = 10;
+    public static final double[] SOFT_LIMITS = {0, 1};
+    public static final int ZERO_OFFSET = 10;
+    public static final int CPR = 2048;
+    public static final int[] SWITCH_PORT = {0, 1};
+    public static final boolean[] SWITCHES_INVERTED = {false, false};
+    public static final ProfiledPIDController PID = new ProfiledPIDController(1, 0, 0, 
         new Constraints(1, 1)
     );
-    public static final ElevatorFeedforward ff = new ElevatorFeedforward(1, 0, 0, 0);
-    public static final ElevatorConstants constants = new ElevatorConstants(gearing, rtm, softLimits, zeroOffset, cpr,
-            switchPort, switchesInverted, pid, ff);
+    public static final ElevatorFeedforward FF = new ElevatorFeedforward(1, 0, 0, 0);
+    public static final ElevatorConstants constants = new ElevatorConstants(GEARING, RTM, SOFT_LIMITS, ZERO_OFFSET, CPR,
+            SWITCH_PORT, SWITCHES_INVERTED, PID, FF);
   }
 
   public static final class ArmConstants {
-    public static final int MOTOR_ID = 20;
+    public static final int MOTOR_ID = 30;
     public static final boolean MOTOR_INVERTED = false;
 
     public static final double FRONT_SETPOINT = Math.toRadians(0);
