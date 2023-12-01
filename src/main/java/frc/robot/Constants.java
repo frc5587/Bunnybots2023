@@ -187,6 +187,9 @@ public final class Constants {
     public static final int SUPPLY_LIMIT = 40;
     public static final int STATOR_LIMIT = 40;
 
+    public static final double TOP_POSITION = 1.3;
+    public static final double BOTTOM_POSITION = 0.25;
+
     public static final int LEFT_MOTOR = 20;
     public static final int RIGHT_MOTOR = 21;
     public static final double GEARING = 0.1; 
@@ -204,12 +207,12 @@ public final class Constants {
             SWITCH_PORT, SWITCHES_INVERTED, PID, FF);
   }
 
-  public static final class ArmConstants {
+  public static final class WristConstants {
     public static final int MOTOR_ID = 30;
     public static final boolean MOTOR_INVERTED = false;
 
-    public static final double FRONT_SETPOINT = Math.toRadians(0);
-    public static final double REAR_SETPOINT = Math.toRadians(160);
+    public static final double TOP_SETPOINT = Math.toRadians(30);
+    public static final double BOTTOM_SETPOINT = Math.toRadians(0);
     
     public static final double GEARING = 64;
     public static final double[] SOFT_LIMITS = {Math.toRadians(0), Math.toRadians(180)};

@@ -43,4 +43,11 @@ public class Elevator extends ElevatorBase {
         
         
     }
+    public void elevatorUp() {
+        setGoal(ElevConstants.TOP_POSITION);
+    }
+
+    public void elevatorDown() {
+        setGoal(ElevConstants.BOTTOM_POSITION);
+    }
 }
