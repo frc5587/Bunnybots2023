@@ -36,18 +36,10 @@ public class SwerveModule {
         
         /* Angle Encoder Config */
         angleEncoder = new CANCoder(moduleConstants.cancoderID, "canivore");
-        // angleEncoder = new CANCoder(moduleConstants.cancoderID);
         configAngleEncoder();
-
-        mAngleMotor.getPIDController().setP(SwerveConstants.ANGLE_FPID.kP);
-        mAngleMotor.getPIDController().setI(SwerveConstants.ANGLE_FPID.kI);
-        mAngleMotor.getPIDController().setD(SwerveConstants.ANGLE_FPID.kD);
-        mAngleMotor.getPIDController().setFF(SwerveConstants.ANGLE_FPID.kF);
-
         
         /* Angle Motor Config */
         mAngleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
-        // mAngleMotor = new CANSparkMax(moduleConstants.angleMotorID);
         configAngleMotor();
 
         /* Drive Motor Config */
@@ -102,19 +94,28 @@ public class SwerveModule {
 
     private void configAngleMotor(){
         mAngleMotor.restoreFactoryDefaults();
-        // mAngleMotor.configAllSettings(ctreConfigs.swerveAngleFXConfig);
         mAngleMotor.setInverted(SwerveConstants.ANGLE_MOTOR_INVERTED);
         mAngleMotor.setIdleMode(IdleMode.kBrake);
+        mAngleMotor.getPIDController().setP(SwerveConstants.ANGLE_FPID.kP);
+        mAngleMotor.getPIDController().setI(SwerveConstants.ANGLE_FPID.kI);
+        mAngleMotor.getPIDController().setD(SwerveConstants.ANGLE_FPID.kD);
+        mAngleMotor.getPIDController().setFF(SwerveConstants.ANGLE_FPID.kF);
+        mAngleMotor.setSmartCurrentLimit(SwerveConstants.ANGLE_PEAK_LIMIT, SwerveConstants.ANGLE_CONT_LIMIT);
         resetToAbsolute();
     }
 
     private void configDriveMotor(){        
         mDriveMotor.restoreFactoryDefaults();
-        // mDriveMotor.configAllSettings(ctreConfigs.swerveDriveFXConfig);
         mDriveMotor.setInverted(SwerveConstants.DRIVE_MOTOR_INVERTED);
         mDriveMotor.setIdleMode(IdleMode.kBrake);
         mDriveMotor.getEncoder().setPosition(0);
-
+        mDriveMotor.getPIDController().setP(SwerveConstants.DRIVE_FPID.kP);
+        mDriveMotor.getPIDController().setI(SwerveConstants.DRIVE_FPID.kI);
+        mDriveMotor.getPIDController().setD(SwerveConstants.DRIVE_FPID.kD);
+        mDriveMotor.getPIDController().setFF(SwerveConstants.DRIVE_FPID.kF);
+        mDriveMotor.setOpenLoopRampRate(SwerveConstants.OPEN_LOOP_RAMP);
+        mDriveMotor.setClosedLoopRampRate(SwerveConstants.CLOSED_LOOP_RAMP);
+        mDriveMotor.setSmartCurrentLimit(SwerveConstants.DRIVE_PEAK_LIMIT, SwerveConstants.DRIVE_CONT_LIMIT);
     }
 
     public SwerveModuleState getState(){
