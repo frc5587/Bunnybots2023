@@ -5,8 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.DualStickSwerve;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Wrist;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -16,22 +21,30 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer { 
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  
+
+
+  private final Elevator elevator = new Elevator();
+  private final Swerve swerve = new Swerve();
+  private final Wrist wrist = new Wrist();
+  private final Intake intake = new Intake();
+
+  private final CommandXboxController xbox = new CommandXboxController(0);
+  private final CommandXboxController xbox2 = new CommandXboxController(1);
+  private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getRightY, xbox::getRightX, xbox::getLeftX, () -> false);
   public RobotContainer() {
-    // Configure the trigger bindings
+    swerve.setDefaultCommand(driveCommand);
     configureBindings();
   }
-
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
   private void configureBindings() {
+    xbox2.povUp().onTrue(new InstantCommand(elevator::elevatorUp));
+    xbox2.povDown().onTrue(new InstantCommand(elevator::elevatorDown));
+    xbox2.leftBumper().onTrue(new InstantCommand(wrist::wristDown));
+    xbox2.rightBumper().onTrue(new InstantCommand(wrist::wristUp));
+    xbox2.a().whileTrue(new InstantCommand(intake::forward));
+    xbox2.b().whileTrue(new InstantCommand(intake::backward));
+
+
   }
 
  
