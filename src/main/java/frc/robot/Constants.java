@@ -173,8 +173,12 @@ public final class Constants {
         public static final boolean MOTOR_INVERTED = false;
         public static final int STALL_LIMIT = 35;
         public static final int FREE_LIMIT = 40;
+        
         public static final int LEFT_MOTOR_ID = 20;
         public static final int RIGHT_MOTOR_ID = 21;
+
+        public static final double TOP_POSITION = 1.3;
+        public static final double BOTTOM_POSITION = 0.25;
 
         public static final double GEARING = 0.1;
         public static final double ROTATIONS_TO_METERS = 10;
@@ -198,8 +202,8 @@ public final class Constants {
         public static final int STALL_LIMIT = 30;
         public static final int FREE_LIMIT = 35;
 
-        public static final double FRONT_SETPOINT = Math.toRadians(0);
-        public static final double REAR_SETPOINT = Math.toRadians(160);
+        public static final double BOTTOM_SETPOINT = Math.toRadians(0);
+        public static final double TOP_SETPOINT = Math.toRadians(30);
 
         public static final double GEARING = 64;
         public static final double[] SOFT_LIMITS = { Math.toRadians(0), Math.toRadians(180) };

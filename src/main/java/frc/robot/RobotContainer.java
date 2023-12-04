@@ -5,8 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.DualStickSwerve;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Swerve;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -19,17 +24,23 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
     // SUBSYSTEMS:
-
-    // COMMANDS:
+    private final Elevator elevator = new Elevator();
+    private final Swerve swerve = new Swerve();
+    private final Intake intake = new Intake();
 
     // CONTROLLERS:
     private final CommandXboxController xbox = new CommandXboxController(0);
+    private final CommandXboxController xbox2 = new CommandXboxController(1);
+
+    // COMMANDS:
+    private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getRightY, xbox::getRightX, xbox::getLeftX, () -> false);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
         // Configure the trigger bindings
+        swerve.setDefaultCommand(driveCommand);
         configureBindings();
     }
 
@@ -48,7 +59,9 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        
+        xbox2.povUp().onTrue(new InstantCommand(elevator::elevatorUp));
+        xbox2.povDown().onTrue(new InstantCommand(elevator::elevatorDown));
+        xbox2.a().whileTrue(new InstantCommand(intake::forward));
     }
 
     /**

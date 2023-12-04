@@ -18,6 +18,14 @@ public class Elevator extends ElevatorBase {
         super(constants, motors);
     }
 
+    public void elevatorUp() {
+        setGoal(ElevConstants.TOP_POSITION);
+    }
+
+    public void elevatorDown() {
+        setGoal(ElevConstants.BOTTOM_POSITION);
+    }
+
     @Override
     public double getEncoderPosition() {
         return leftMotor.getEncoder().getPosition();

@@ -81,11 +81,11 @@ public class Wrist extends PivotingArmBase {
     }
     
     public void moveRear() {
-        setGoal(WristConstants.REAR_SETPOINT);
+        setGoal(WristConstants.TOP_SETPOINT);
     }
     
     public void moveFront() {
-        setGoal(WristConstants.FRONT_SETPOINT);
+        setGoal(WristConstants.BOTTOM_SETPOINT);
     }
 
     public void toggleArm() {
