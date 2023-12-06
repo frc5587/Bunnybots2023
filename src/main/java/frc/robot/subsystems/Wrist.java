@@ -79,23 +79,6 @@ public class Wrist extends PivotingArmBase{
             motor.set(-0.3);
         }
     }
-    
-    public void moveRear() {
-        getController().setGoal(WristConstants.BOTTOM_SETPOINT);
-    }
-    
-    public void moveFront() {
-        getController().setGoal(WristConstants.TOP_SETPOINT);
-    }
-
-
-    public void toggleArm() {
-        if(getFrontLimitSwitch().get()) {
-            moveRear();
-        } else if (getFrontLimitSwitch().get()) {
-            moveFront();
-        }
-    }
 
     @Override
     public void periodic() {

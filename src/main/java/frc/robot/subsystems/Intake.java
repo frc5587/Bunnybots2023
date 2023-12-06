@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -15,9 +14,6 @@ import frc.robot.Constants.IntakeConstants;
 public class Intake extends SimpleMotorBase {
     private static final CANSparkMax rightIntake = new CANSparkMax(IntakeConstants.RIGHT_MOTOR, MotorType.kBrushless);
     private static final CANSparkMax leftIntake = new CANSparkMax(IntakeConstants.LEFT_MOTOR, MotorType.kBrushless);
-
-    private final RelativeEncoder rightEncoder = rightIntake.getEncoder();
-    private final RelativeEncoder leftEncoder = leftIntake.getEncoder();
 
     public Intake() {
         super(new MotorControllerGroup(rightIntake, leftIntake), IntakeConstants.THROTTLE_FORWARD, IntakeConstants.THROTTLE_REVERSE);
@@ -49,10 +45,10 @@ public class Intake extends SimpleMotorBase {
     }
 
     private double leftVelocity() {
-        return leftEncoder.getVelocity();
+        return leftIntake.getEncoder().getVelocity();
     }
 
     private double rightVelocity() {
-        return rightEncoder.getVelocity();
+        return rightIntake.getEncoder().getVelocity();
     }
 }

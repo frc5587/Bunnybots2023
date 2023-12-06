@@ -9,10 +9,9 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants.ElevConstants;
 
 public class Elevator extends ElevatorBase {
-    private static final MotorType kBrushless = null;
     private static ElevatorConstants constants = ElevConstants.constants;
-    private static CANSparkMax leftMotor = new CANSparkMax(ElevConstants.LEFT_MOTOR, kBrushless);
-    private static CANSparkMax rightMotor = new CANSparkMax(ElevConstants.RIGHT_MOTOR, kBrushless);
+    private static CANSparkMax leftMotor = new CANSparkMax(ElevConstants.LEFT_MOTOR, MotorType.kBrushless);
+    private static CANSparkMax rightMotor = new CANSparkMax(ElevConstants.RIGHT_MOTOR, MotorType.kBrushless);
     private static MotorControllerGroup motors = new MotorControllerGroup(leftMotor, rightMotor);
 
     public Elevator() {
@@ -37,7 +36,8 @@ public class Elevator extends ElevatorBase {
     @Override
     public void configureMotors() {
         leftMotor.restoreFactoryDefaults();
-        leftMotor.setInverted(ElevConstants.MOTOR_INVERTED);
+        leftMotor.setInverted(ElevConstants.LEFT_MOTOR_INVERTED);
+        rightMotor.setInverted(ElevConstants.RIGHT_MOTOR_INVERTED);
         leftMotor.setSmartCurrentLimit(ElevConstants.SUPPLY_LIMIT, ElevConstants.STATOR_LIMIT);
         rightMotor.setSmartCurrentLimit(ElevConstants.SUPPLY_LIMIT, ElevConstants.STATOR_LIMIT);
         

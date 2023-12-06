@@ -7,8 +7,6 @@ package frc.robot;
 import org.frc5587.lib.pid.FPID;
 import org.frc5587.lib.subsystems.ElevatorBase.ElevatorConstants;
 
-import com.revrobotics.CANSparkMax.IdleMode;
-
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -104,10 +102,6 @@ public final class Constants {
         /** Radians per Second */
         public static final double MAX_ANGULAR_VELOCITY = Math.PI;//6.;
 
-        /* Idle Modes */
-        public static final IdleMode ANGLE_IDLE_MODE = IdleMode.kCoast;
-        public static final IdleMode DRIVE_IDLE_MODE = IdleMode.kBrake;
-
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
         public static final class Mod0 {
@@ -172,18 +166,11 @@ public final class Constants {
     // motor speeds
     public static final double THROTTLE_FORWARD = 0.75;
     public static final double THROTTLE_REVERSE = 0.25;
-    public static final double LEFT_VELOCITY_THRESHOLD = 10;  // rps
-    public static final double EJECT_CRATE_RUNTIME = 0.5; // seconds
-    public static final double RIGHT_VELOCITY_THRESHOLD = 500;  // rps
-  
-    public static final double HOLD = 0.05;
-  
-    public static final int SOLENOID_ID = 0;
-    public static final int SOLENOID_ID2 = 1;
   }
 
   public static final class ElevConstants {
-    public static final boolean MOTOR_INVERTED = false;
+    public static final boolean LEFT_MOTOR_INVERTED = false;
+    public static final boolean RIGHT_MOTOR_INVERTED = false;
     public static final int SUPPLY_LIMIT = 40;
     public static final int STATOR_LIMIT = 40;
 
