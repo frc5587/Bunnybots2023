@@ -5,7 +5,6 @@ import frc.robot.Constants.WristConstants;
 import org.frc5587.lib.subsystems.PivotingArmBase;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -14,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Wrist extends PivotingArmBase{
     public static CANSparkMax motor = new CANSparkMax(WristConstants.MOTOR_ID, MotorType.kBrushless); 
-    private final RelativeEncoder encoder = motor.getEncoder();
 
     private final DigitalInput frontLimitSwitch = new DigitalInput(WristConstants.SWITCH_PORTS[0]);
     private final DigitalInput rearLimitSwitch = new DigitalInput(WristConstants.SWITCH_PORTS[1]);
@@ -47,17 +45,17 @@ public class Wrist extends PivotingArmBase{
 
     @Override
     public double getEncoderPosition() {
-        return encoder.getPosition();
+        return motor.getEncoder().getPosition();
     }
 
     @Override
     public double getEncoderVelocity() {
-        return encoder.getVelocity();
+        return motor.getEncoder().getVelocity();
     }
 
     @Override
     public void setEncoderPosition(double position) {
-        encoder.setPosition(position);
+        motor.getEncoder().setPosition(position);
     }
 
     @Override
