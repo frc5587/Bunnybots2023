@@ -205,7 +205,7 @@ public final class Constants {
     public static final double[] SOFT_LIMITS = {Math.toRadians(0), Math.toRadians(180)};
     public static final int ZERO_OFFSET = 0;
     public static final int ENCODER_CPR = 42;
-    public static final int[] SWITCH_PORTS = {1};
+    public static final int[] SWITCH_PORTS = {2, 3};
     public static final boolean[] SWITCH_INVERTIONS = {false, false};
     public static final ProfiledPIDController PID = new ProfiledPIDController(6.9012, 0, 1.5006, new Constraints(5, 50));
     public static final ArmFeedforward FF = new ArmFeedforward(0.34905, -0.032397, 1.23, 0.083365);

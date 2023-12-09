@@ -35,7 +35,7 @@ public class SwerveModule {
         ctreConfigs = new CTREConfigs();
         
         /* Angle Encoder Config */
-        angleEncoder = new CANCoder(moduleConstants.cancoderID, "canivore");
+        angleEncoder = new CANCoder(moduleConstants.cancoderID);
         // angleEncoder = new CANCoder(moduleConstants.cancoderID);
         configAngleEncoder();
         

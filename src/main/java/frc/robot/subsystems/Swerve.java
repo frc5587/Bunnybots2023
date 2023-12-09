@@ -20,7 +20,7 @@ import frc.robot.Constants.SwerveConstants;
 
 public class Swerve extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
-    public AHRS gyro;
+    // public AHRS gyro;
     
     public SwerveDriveOdometry odometry;
     public SwerveDrivePoseEstimator poseEstimator;
@@ -32,7 +32,7 @@ public class Swerve extends SubsystemBase {
     // private SlewRateLimiter slew = new SlewRateLimiter(SwerveConstants.SLEW_RATE);
 
     public Swerve() {
-        this.gyro = new AHRS();
+        // this.gyro = new AHRS();
         this.kinematics = SwerveConstants.SWERVE_KINEMATICS;
 
         this.mSwerveMods = new SwerveModule[] {
@@ -99,8 +99,8 @@ public class Swerve extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        gyro.zeroYaw();
-        gyro.setAngleAdjustment(pose.getRotation().getDegrees());
+        // gyro.zeroYaw();
+        // gyro.setAngleAdjustment(pose.getRotation().getDegrees());
 
         odometry.resetPosition(getYaw(), getModulePositions(), pose);
         poseEstimator.resetPosition(getYaw(), getModulePositions(), pose);
@@ -128,19 +128,23 @@ public class Swerve extends SubsystemBase {
 
     public void zeroGyro(){
         lockedHeading = null;
-        gyro.zeroYaw();
+        // gyro.zeroYaw();
     }
 
     public double getRoll() {
-        return gyro.getRoll();
+        // return gyro.getRoll();
+        return 0;
     }
 
     public double getPitch() {
-        return gyro.getPitch();
+        // return gyro.getPitch();
+        return 0;
     }
 
     public Rotation2d getYaw() {
-        return (SwerveConstants.INVERT_GYRO) ? Rotation2d.fromDegrees(-gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
+        // return (SwerveConstants.INVERT_GYRO) ? Rotation2d.fromDegrees(-gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
+        // return odometry.getPoseMeters().getRotation();
+        return new Rotation2d();
     }
 
     public Rotation2d getYawFromOdom() {
