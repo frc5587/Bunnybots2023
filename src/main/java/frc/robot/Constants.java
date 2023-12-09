@@ -33,7 +33,7 @@ public final class Constants {
     public static final boolean INVERT_GYRO = true; // Always ensure Gyro is CCW+ CW-
 
         public static final COTSFalconSwerveConstants CHOSEN_MODULE = 
-            COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L1);
+            COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
 
         /* Drivetrain Constants */
         public static final double TRACK_WIDTH = Units.inchesToMeters(19.51); // distance from left wheel to right wheel
