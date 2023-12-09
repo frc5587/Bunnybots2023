@@ -173,7 +173,7 @@ public final class Constants {
     public static final boolean RIGHT_MOTOR_INVERTED = false;
     public static final int SUPPLY_LIMIT = 40;
     public static final int STATOR_LIMIT = 40;
-
+    // elevator positions
     public static final double TOP_POSITION = 1.3;
     public static final double BOTTOM_POSITION = 0.25;
 

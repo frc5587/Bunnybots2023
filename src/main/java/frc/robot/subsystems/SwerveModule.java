@@ -38,12 +38,6 @@ public class SwerveModule {
         angleEncoder = new CANCoder(moduleConstants.cancoderID, "canivore");
         // angleEncoder = new CANCoder(moduleConstants.cancoderID);
         configAngleEncoder();
-
-        mAngleMotor.getPIDController().setP(SwerveConstants.ANGLE_FPID.kP);
-        mAngleMotor.getPIDController().setI(SwerveConstants.ANGLE_FPID.kI);
-        mAngleMotor.getPIDController().setD(SwerveConstants.ANGLE_FPID.kD);
-        mAngleMotor.getPIDController().setFF(SwerveConstants.ANGLE_FPID.kF);
-
         
         /* Angle Motor Config */
         mAngleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
@@ -102,6 +96,10 @@ public class SwerveModule {
 
     private void configAngleMotor(){
         mAngleMotor.restoreFactoryDefaults();
+        mAngleMotor.getPIDController().setP(SwerveConstants.ANGLE_FPID.kP);
+        mAngleMotor.getPIDController().setI(SwerveConstants.ANGLE_FPID.kI);
+        mAngleMotor.getPIDController().setD(SwerveConstants.ANGLE_FPID.kD);
+        mAngleMotor.getPIDController().setFF(SwerveConstants.ANGLE_FPID.kF);
         // mAngleMotor.configAllSettings(ctreConfigs.swerveAngleFXConfig);
         mAngleMotor.setInverted(SwerveConstants.ANGLE_MOTOR_INVERTED);
         mAngleMotor.setIdleMode(IdleMode.kBrake);
