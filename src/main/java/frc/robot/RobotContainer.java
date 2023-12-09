@@ -48,6 +48,8 @@ public class RobotContainer {
     xbox2.leftBumper().onTrue(new InstantCommand(wrist::wristDown));
     xbox2.a().whileTrue(new InstantCommand(intake::forward));
     xbox2.b().whileTrue(new InstantCommand(intake::backward));
+    xbox.x().whileTrue(new InstantCommand(elevator::elevatorUpSlow)).onFalse(new InstantCommand(elevator::stop));
+    xbox.y().whileTrue(new InstantCommand(elevator::elevatorDownSlow)).onFalse(new InstantCommand(elevator::stop));
   }
 
  

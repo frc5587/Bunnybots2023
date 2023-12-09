@@ -102,7 +102,7 @@ public class SwerveModule {
         mAngleMotor.getPIDController().setFF(SwerveConstants.ANGLE_FPID.kF);
         // mAngleMotor.configAllSettings(ctreConfigs.swerveAngleFXConfig);
         mAngleMotor.setInverted(SwerveConstants.ANGLE_MOTOR_INVERTED);
-        mAngleMotor.setIdleMode(IdleMode.kBrake);
+        mAngleMotor.setIdleMode(IdleMode.kCoast);
         resetToAbsolute();
     }
 

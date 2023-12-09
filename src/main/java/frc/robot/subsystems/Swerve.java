@@ -148,7 +148,6 @@ public class Swerve extends SubsystemBase {
     public Rotation2d getYawFromOdom() {
         return odometry.getPoseMeters().getRotation();
     }
-
     public void resetModulesToAbsolute(){
         for(SwerveModule mod : mSwerveMods){
             mod.resetToAbsolute();

@@ -18,6 +18,14 @@ public class Elevator extends ElevatorBase {
         super(ElevConstants.constants, motors);
     }
 
+    public void elevatorUpSlow() {
+        set(0.1);
+    }
+
+    public void elevatorDownSlow() {
+        set(-0.1);
+    }
+
     @Override
     public double getEncoderPosition() {
         return leftMotor.getEncoder().getPosition();
@@ -57,3 +65,4 @@ public class Elevator extends ElevatorBase {
         setGoal(ElevConstants.BOTTOM_POSITION);
     }
 }
+
