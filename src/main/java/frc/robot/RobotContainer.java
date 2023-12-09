@@ -21,9 +21,6 @@ import frc.robot.subsystems.Wrist;
  */
 public class RobotContainer { 
 
-  
-
-
   private final Elevator elevator = new Elevator();
   private final Swerve swerve = new Swerve();
   private final Wrist wrist = new Wrist();
@@ -36,15 +33,21 @@ public class RobotContainer {
     swerve.setDefaultCommand(driveCommand);
     configureBindings();
   }
+  /* Controller 2 Bindings
+  DPad Up = elevatorUp
+  DPad Down = elevatorDown
+  Right Bumper = wristUp
+  Left Bumper = wristDown
+  A = Forward Intake
+  B = Backward Intake
+  */
   private void configureBindings() {
     xbox2.povUp().onTrue(new InstantCommand(elevator::elevatorUp));
     xbox2.povDown().onTrue(new InstantCommand(elevator::elevatorDown));
-    xbox2.leftBumper().onTrue(new InstantCommand(wrist::wristDown));
     xbox2.rightBumper().onTrue(new InstantCommand(wrist::wristUp));
+    xbox2.leftBumper().onTrue(new InstantCommand(wrist::wristDown));
     xbox2.a().whileTrue(new InstantCommand(intake::forward));
     xbox2.b().whileTrue(new InstantCommand(intake::backward));
-
-
   }
 
  
