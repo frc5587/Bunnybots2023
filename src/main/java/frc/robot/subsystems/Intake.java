@@ -14,7 +14,7 @@ public class Intake extends SimpleMotorBase {
     private static MotorControllerGroup motors = new MotorControllerGroup(leftMotor, rightMotor);
     
     public Intake() {
-        super(motors, IntakeConstants.FORWARD_THROTTLE, IntakeConstants.BACKWARD_THROTTLE);
+        super(motors, IntakeConstants.FORWARD_THROTTLE, IntakeConstants.REVERSE_THROTTLE);
     }
 
     @Override

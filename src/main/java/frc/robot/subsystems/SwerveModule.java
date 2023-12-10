@@ -35,7 +35,8 @@ public class SwerveModule {
         ctreConfigs = new CTREConfigs();
         
         /* Angle Encoder Config */
-        angleEncoder = new CANCoder(moduleConstants.cancoderID, "canivore");
+        angleEncoder = new CANCoder(moduleConstants.cancoderID);
+        // angleEncoder = new CANCoder(moduleConstants.cancoderID);
         configAngleEncoder();
         
         /* Angle Motor Config */
@@ -70,7 +71,7 @@ public class SwerveModule {
     public void setAngle(SwerveModuleState desiredState){
         Rotation2d angle = (Math.abs(desiredState.speedMetersPerSecond) <= (SwerveConstants.MAX_SPEED * 0.05)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 5%. Prevents Jittering.
         
-        mAngleMotor.getPIDController().setReference(angle.getRotations(), ControlType.kPosition);
+       mAngleMotor.getPIDController().setReference(angle.getRotations(),ControlType.kPosition);
         lastAngle = angle;
     }
 
@@ -94,13 +95,13 @@ public class SwerveModule {
 
     private void configAngleMotor(){
         mAngleMotor.restoreFactoryDefaults();
-        mAngleMotor.setInverted(SwerveConstants.ANGLE_MOTOR_INVERTED);
-        mAngleMotor.setIdleMode(IdleMode.kBrake);
         mAngleMotor.getPIDController().setP(SwerveConstants.ANGLE_FPID.kP);
         mAngleMotor.getPIDController().setI(SwerveConstants.ANGLE_FPID.kI);
         mAngleMotor.getPIDController().setD(SwerveConstants.ANGLE_FPID.kD);
         mAngleMotor.getPIDController().setFF(SwerveConstants.ANGLE_FPID.kF);
-        mAngleMotor.setSmartCurrentLimit(SwerveConstants.ANGLE_PEAK_LIMIT, SwerveConstants.ANGLE_CONT_LIMIT);
+        // mAngleMotor.configAllSettings(ctreConfigs.swerveAngleFXConfig);
+        mAngleMotor.setInverted(SwerveConstants.ANGLE_MOTOR_INVERTED);
+        mAngleMotor.setIdleMode(IdleMode.kCoast);
         resetToAbsolute();
     }
 

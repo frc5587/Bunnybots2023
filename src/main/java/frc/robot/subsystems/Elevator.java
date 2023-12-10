@@ -3,19 +3,27 @@ package frc.robot.subsystems;
 import org.frc5587.lib.subsystems.ElevatorBase;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants.ElevConstants;
 
 public class Elevator extends ElevatorBase {
-    private static ElevatorConstants constants = ElevConstants.CONSTANTS;
-    private static CANSparkMax leftMotor = new CANSparkMax(ElevConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
-    private static CANSparkMax rightMotor = new CANSparkMax(ElevConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
+    private static CANSparkMax leftMotor = new CANSparkMax(ElevConstants.LEFT_MOTOR, MotorType.kBrushless);
+    private static CANSparkMax rightMotor = new CANSparkMax(ElevConstants.RIGHT_MOTOR, MotorType.kBrushless);
     private static MotorControllerGroup motors = new MotorControllerGroup(leftMotor, rightMotor);
 
     public Elevator() {
-        super(constants, motors);
+        super(ElevConstants.constants, motors);
+    }
+
+    public void elevatorUpSlow() {
+        set(0.1);
+    }
+
+    public void elevatorDownSlow() {
+        set(-0.1);
     }
 
     public void elevatorUp() {
@@ -25,7 +33,7 @@ public class Elevator extends ElevatorBase {
     public void elevatorDown() {
         setGoal(ElevConstants.BOTTOM_POSITION);
     }
-
+    
     @Override
     public double getEncoderPosition() {
         return leftMotor.getEncoder().getPosition();
@@ -45,9 +53,17 @@ public class Elevator extends ElevatorBase {
     public void configureMotors() {
         leftMotor.restoreFactoryDefaults();
         rightMotor.restoreFactoryDefaults();
-        leftMotor.setInverted(ElevConstants.MOTOR_INVERTED);
-        rightMotor.setInverted(ElevConstants.MOTOR_INVERTED);
-        leftMotor.setSmartCurrentLimit(ElevConstants.STALL_LIMIT, ElevConstants.FREE_LIMIT);
-        rightMotor.setSmartCurrentLimit(ElevConstants.STALL_LIMIT, ElevConstants.FREE_LIMIT);
+
+        leftMotor.setInverted(ElevConstants.LEFT_MOTOR_INVERTED);
+        rightMotor.setInverted(ElevConstants.RIGHT_MOTOR_INVERTED);
+
+        leftMotor.setSmartCurrentLimit(ElevConstants.SUPPLY_LIMIT, ElevConstants.STATOR_LIMIT);
+        rightMotor.setSmartCurrentLimit(ElevConstants.SUPPLY_LIMIT, ElevConstants.STATOR_LIMIT);
+
+        leftMotor.setIdleMode(IdleMode.kBrake);
+        rightMotor.setIdleMode(IdleMode.kBrake);
+        
+        
     }
 }
+

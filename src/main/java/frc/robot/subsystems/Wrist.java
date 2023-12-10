@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants.WristConstants;
 
-import org.frc5587.lib.subsystems.PivotingArmBase;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -19,11 +17,11 @@ public class Wrist extends PivotingArmBase {
 
     public static PivotingArmConstants constants = new PivotingArmConstants(
         WristConstants.GEARING,
+        1,
+        0,
         WristConstants.SOFT_LIMITS,
         WristConstants.ZERO_OFFSET,
         WristConstants.ENCODER_CPR,
-        WristConstants.SWITCH_PORTS,
-        WristConstants.SWITCH_INVERTIONS,
         WristConstants.PID,
         WristConstants.FF
     );
@@ -33,7 +31,7 @@ public class Wrist extends PivotingArmBase {
     }
     
     public Wrist(CANSparkMax motor) {
-        super(constants, motor);
+        super("wrist", constants, motor);
     }
 
     public DigitalInput getFrontLimitSwitch() {
@@ -79,27 +77,18 @@ public class Wrist extends PivotingArmBase {
             motor.set(-0.3);
         }
     }
-    
-    public void moveRear() {
-        setGoal(WristConstants.TOP_SETPOINT);
-    }
-    
-    public void moveFront() {
-        setGoal(WristConstants.BOTTOM_SETPOINT);
-    }
-
-    public void toggleArm() {
-        if(getFrontLimitSwitch().get()) {
-            moveRear();
-        } else if (getFrontLimitSwitch().get()) {
-            moveFront();
-        }
-    }
 
     @Override
     public void periodic() {
         super.periodic();
         SmartDashboard.putBoolean("Front Limit Switch", getFrontLimitSwitch().get());
         SmartDashboard.putBoolean("Rear Limit Switch", getRearLimitSwitch().get());
+    }
+
+    public void wristUp() {
+        setGoal(WristConstants.TOP_SETPOINT);
+    }
+    public void wristDown() {
+        setGoal(WristConstants.BOTTOM_SETPOINT);
     }
 }

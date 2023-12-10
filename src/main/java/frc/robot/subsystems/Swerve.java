@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,7 +18,7 @@ import frc.robot.Constants.SwerveConstants;
 
 public class Swerve extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
-    public AHRS gyro;
+    // public AHRS gyro;
     
     public SwerveDriveOdometry odometry;
     public SwerveDrivePoseEstimator poseEstimator;
@@ -32,7 +30,7 @@ public class Swerve extends SubsystemBase {
     // private SlewRateLimiter slew = new SlewRateLimiter(SwerveConstants.SLEW_RATE);
 
     public Swerve() {
-        this.gyro = new AHRS();
+        // this.gyro = new AHRS();
         this.kinematics = SwerveConstants.SWERVE_KINEMATICS;
 
         this.mSwerveMods = new SwerveModule[] {
@@ -99,8 +97,8 @@ public class Swerve extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        gyro.zeroYaw();
-        gyro.setAngleAdjustment(pose.getRotation().getDegrees());
+        // gyro.zeroYaw();
+        // gyro.setAngleAdjustment(pose.getRotation().getDegrees());
 
         odometry.resetPosition(getYaw(), getModulePositions(), pose);
         poseEstimator.resetPosition(getYaw(), getModulePositions(), pose);
@@ -128,25 +126,28 @@ public class Swerve extends SubsystemBase {
 
     public void zeroGyro(){
         lockedHeading = null;
-        gyro.zeroYaw();
+        // gyro.zeroYaw();
     }
 
     public double getRoll() {
-        return gyro.getRoll();
+        // return gyro.getRoll();
+        return 0;
     }
 
     public double getPitch() {
-        return gyro.getPitch();
+        // return gyro.getPitch();
+        return 0;
     }
 
     public Rotation2d getYaw() {
-        return (SwerveConstants.INVERT_GYRO) ? Rotation2d.fromDegrees(-gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
+        // return (SwerveConstants.INVERT_GYRO) ? Rotation2d.fromDegrees(-gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
+        // return odometry.getPoseMeters().getRotation();
+        return new Rotation2d();
     }
 
     public Rotation2d getYawFromOdom() {
         return odometry.getPoseMeters().getRotation();
     }
-
     public void resetModulesToAbsolute(){
         for(SwerveModule mod : mSwerveMods){
             mod.resetToAbsolute();
@@ -174,18 +175,8 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // if the target is within 2.5 meters of the robot, factor it into pose data
-        // if (limelight.hasTarget() && limelight.calculateDistance() < 2.5) { 
-        //     poseEstimator.addVisionMeasurement(limelight.getLimelightPose(), Timer.getFPGATimestamp());
-        // }
 
-        // if (DriverStation.isDisabled()) {
-        //     
-        //     // if(!inCommunity()) {
-        //     //     SmartDashboard.putBoolean("Swerve Brake Mode", true);
-        //     // }
-        //     // resetModulesToAbsolute(); 
-        // }
+        
 
         odometry.update(getYaw(), getModulePositions());
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions()); // ! If this is wrong, its probably a problem with getYaw()
@@ -197,23 +188,5 @@ public class Swerve extends SubsystemBase {
                 SmartDashboard.putNumber("mod " + i + "degrees", mSwerveMods[i].getCanCoder().getDegrees());
                 SmartDashboard.putNumber("Adjusted " + i, mSwerveMods[i].getPosition().angle.getDegrees());
             }
-        
-
-        //     SmartDashboard.putNumber("Roll", getRoll());
-            SmartDashboard.putNumber("Pitch", getPitch());
-        //     SmartDashboard.putNumber("Yaw", getYaw().getDegrees());
-        // }
-
-        // if(SmartDashboard.getBoolean("Swerve Brake Mode", true)) {
-        //     for(SwerveModule mod : mSwerveMods) {
-        //         mod.mAngleMotor.setNeutralMode(NeutralMode.Brake);
-        //         mod.mDriveMotor.setNeutralMode(NeutralMode.Brake);
-        //     }
-        // } else {
-        //     for(SwerveModule mod : mSwerveMods) {
-        //         mod.mAngleMotor.setNeutralMode(NeutralMode.Coast);
-        //         mod.mDriveMotor.setNeutralMode(NeutralMode.Coast);
-        //     }
-        // }
     }
 }
