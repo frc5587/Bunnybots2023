@@ -8,6 +8,7 @@ import org.frc5587.lib.control.DeadbandCommandXboxController;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DualStickSwerve;
@@ -70,8 +71,9 @@ public class RobotContainer {
         xbox2.leftBumper().onTrue(new InstantCommand(wrist::wristDown));
         xbox2.a().whileTrue(new InstantCommand(intake::forward));
         xbox2.b().whileTrue(new InstantCommand(intake::backward));
-        xbox.x().whileTrue(new InstantCommand(elevator::elevatorUpSlow)).onFalse(new InstantCommand(elevator::stop));
-        xbox.y().whileTrue(new InstantCommand(elevator::elevatorDownSlow)).onFalse(new InstantCommand(elevator::stop));
+        xbox.x().onTrue(new InstantCommand(elevator::elevatorUpSlow));//.onFalse(new InstantCommand(elevator::stop));
+        xbox.y().onTrue(new InstantCommand(elevator::elevatorDownSlow));//.onFalse(new InstantCommand(elevator::stop));
+        xbox.b().onTrue(new InstantCommand(elevator::stop));
     }
 
     /**

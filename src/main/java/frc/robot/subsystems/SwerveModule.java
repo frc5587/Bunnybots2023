@@ -52,7 +52,7 @@ public class SwerveModule {
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
         /* This is a custom optimize function, since default WPILib optimize assumes continuous controller which CTRE and Rev onboard is not */
-        desiredState = CTREModuleState.optimize(desiredState, getState().angle); 
+        // desiredState = CTREModuleState.optimize(desiredState, getState().angle); 
         setAngle(desiredState);
         setSpeed(desiredState, isOpenLoop);
     }
@@ -77,7 +77,8 @@ public class SwerveModule {
     }
 
     private Rotation2d getAngle(){
-        return Rotation2d.fromDegrees(Conversions.falconToDegrees(mAngleMotor.getEncoder().getPosition(), SwerveConstants.ANGLE_GEAR_RATIO));
+        // return Rotation2d.fromDegrees(Conversions.falconToDegrees(mAngleMotor.getEncoder().getPosition(), SwerveConstants.ANGLE_GEAR_RATIO));
+        return Rotation2d.fromRotations(mAngleMotor.getEncoder().getPosition() / SwerveConstants.ANGLE_GEAR_RATIO);
     }
 
     public Rotation2d getCanCoder(){
@@ -85,7 +86,7 @@ public class SwerveModule {
     }
 
     public void resetToAbsolute(){
-        double absolutePosition = Conversions.degreesToFalcon(getCanCoder().getDegrees() - angleOffset.getDegrees(), SwerveConstants.ANGLE_GEAR_RATIO);
+        double absolutePosition = (getCanCoder().getRotations() - angleOffset.getRotations()) * SwerveConstants.ANGLE_GEAR_RATIO;//Conversions.degreesToFalcon(getCanCoder().getDegrees() - angleOffset.getDegrees(), SwerveConstants.ANGLE_GEAR_RATIO);
         mAngleMotor.getEncoder().setPosition(absolutePosition);
     }
 
@@ -96,7 +97,7 @@ public class SwerveModule {
 
     private void configAngleMotor(){
         mAngleMotor.restoreFactoryDefaults();
-        mAngleMotor.getPIDController().setP(SwerveConstants.ANGLE_FPID.kP);
+        mAngleMotor.getPIDController().setP(1);//SwerveConstants.ANGLE_FPID.kP);
         mAngleMotor.getPIDController().setI(SwerveConstants.ANGLE_FPID.kI);
         mAngleMotor.getPIDController().setD(SwerveConstants.ANGLE_FPID.kD);
         mAngleMotor.getPIDController().setFF(SwerveConstants.ANGLE_FPID.kF);

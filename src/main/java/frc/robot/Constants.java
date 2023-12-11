@@ -180,7 +180,7 @@ public final class Constants {
   }
 
   public static final class ElevConstants {
-    public static final boolean LEFT_MOTOR_INVERTED = false;
+    public static final boolean LEFT_MOTOR_INVERTED = true;
     public static final boolean RIGHT_MOTOR_INVERTED = false;
     public static final int SUPPLY_LIMIT = 40;
     public static final int STATOR_LIMIT = 40;

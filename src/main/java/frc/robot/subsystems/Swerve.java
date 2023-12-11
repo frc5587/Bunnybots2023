@@ -70,6 +70,7 @@ public class Swerve extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.MAX_SPEED);
         
         for(SwerveModule mod : mSwerveMods){
+            SmartDashboard.putNumber("DesiredAngle " + mod.moduleNumber, swerveModuleStates[mod.moduleNumber].angle.getDegrees());
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
         }
     }    
@@ -147,8 +148,8 @@ public class Swerve extends SubsystemBase {
     public Rotation2d getYaw() {
         // return (SwerveConstants.INVERT_GYRO) ? Rotation2d.fromDegrees(-gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
         // return odometry.getPoseMeters().getRotation();
-        // return new Rotation2d();
-        return getYawFromOdom();
+        return new Rotation2d();
+        // return getYawFromOdom();
     }
 
     public Rotation2d getYawFromOdom() {
@@ -192,5 +193,6 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("mod " + i + "degrees", mSwerveMods[i].getCanCoder().getDegrees());
             SmartDashboard.putNumber("Adjusted " + i, mSwerveMods[i].getPosition().angle.getDegrees());
         }
+        getModuleStates();
     }
 }
