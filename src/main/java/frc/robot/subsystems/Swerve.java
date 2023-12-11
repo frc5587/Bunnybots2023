@@ -63,6 +63,10 @@ public class Swerve extends SubsystemBase {
                         translation.getX(), // -translation.getX(), 
                         translation.getY(), 
                         rotation));
+        SmartDashboard.putNumber("Translation X", translation.getX());
+        SmartDashboard.putNumber("Translation Y", translation.getY());
+        SmartDashboard.putNumber("Rotation", rotation);
+
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.MAX_SPEED);
         
         for(SwerveModule mod : mSwerveMods){
@@ -112,6 +116,7 @@ public class Swerve extends SubsystemBase {
         SwerveModuleState[] states = new SwerveModuleState[4];
         for(SwerveModule mod : mSwerveMods){
             states[mod.moduleNumber] = mod.getState();
+            SmartDashboard.putString("Mod " + mod.moduleNumber + " State", states[mod.moduleNumber].toString());
         }
         return states;
     }
@@ -142,12 +147,14 @@ public class Swerve extends SubsystemBase {
     public Rotation2d getYaw() {
         // return (SwerveConstants.INVERT_GYRO) ? Rotation2d.fromDegrees(-gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
         // return odometry.getPoseMeters().getRotation();
-        return new Rotation2d();
+        // return new Rotation2d();
+        return getYawFromOdom();
     }
 
     public Rotation2d getYawFromOdom() {
         return odometry.getPoseMeters().getRotation();
     }
+
     public void resetModulesToAbsolute(){
         for(SwerveModule mod : mSwerveMods){
             mod.resetToAbsolute();
@@ -175,18 +182,15 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic() {
-
-        
-
         odometry.update(getYaw(), getModulePositions());
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions()); // ! If this is wrong, its probably a problem with getYaw()
         poseHistory.addSample(Timer.getFPGATimestamp(), getPose());
         field.setRobotPose(getPose());
         
-            // DEBUGGING VALUES
-            for (int i = 0; i < mSwerveMods.length; i++) {
-                SmartDashboard.putNumber("mod " + i + "degrees", mSwerveMods[i].getCanCoder().getDegrees());
-                SmartDashboard.putNumber("Adjusted " + i, mSwerveMods[i].getPosition().angle.getDegrees());
-            }
+        // DEBUGGING VALUES
+        for (int i = 0; i < mSwerveMods.length; i++) {
+            SmartDashboard.putNumber("mod " + i + "degrees", mSwerveMods[i].getCanCoder().getDegrees());
+            SmartDashboard.putNumber("Adjusted " + i, mSwerveMods[i].getPosition().angle.getDegrees());
+        }
     }
 }

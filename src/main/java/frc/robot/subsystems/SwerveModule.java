@@ -64,14 +64,15 @@ public class SwerveModule {
         }
         else {
             double velocity = Conversions.MPSToFalcon(desiredState.speedMetersPerSecond, SwerveConstants.WHEEL_CIRCUMFERENCE_METERS, SwerveConstants.DRIVE_GEAR_RATIO);
-            mDriveMotor.set(velocity);
+            // mDriveMotor.set(velocity);
+            mDriveMotor.getPIDController().setReference(velocity, ControlType.kVelocity);
         }
     }
 
     public void setAngle(SwerveModuleState desiredState){
-        Rotation2d angle = (Math.abs(desiredState.speedMetersPerSecond) <= (SwerveConstants.MAX_SPEED * 0.05)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 5%. Prevents Jittering.
+        Rotation2d angle = desiredState.angle;//(Math.abs(desiredState.speedMetersPerSecond) <= (SwerveConstants.MAX_SPEED * 0.05)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 5%. Prevents Jittering.
         
-       mAngleMotor.getPIDController().setReference(angle.getRotations(),ControlType.kPosition);
+        mAngleMotor.getPIDController().setReference(angle.getRotations(), ControlType.kPosition);
         lastAngle = angle;
     }
 
