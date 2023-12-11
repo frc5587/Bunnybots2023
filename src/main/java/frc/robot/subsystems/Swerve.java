@@ -191,7 +191,8 @@ public class Swerve extends SubsystemBase {
         // DEBUGGING VALUES
         for (int i = 0; i < mSwerveMods.length; i++) {
             SmartDashboard.putNumber("mod " + i + "degrees", mSwerveMods[i].getCanCoder().getDegrees());
-            SmartDashboard.putNumber("Adjusted " + i, mSwerveMods[i].getPosition().angle.getDegrees());
+            SmartDashboard.putNumber("Motor " + i, mSwerveMods[i].getPosition().angle.getDegrees());
+            SmartDashboard.putNumber("Adjusted absolute " + i, mSwerveMods[i].getCanCoder().getDegrees() - mSwerveMods[i].angleOffset.getDegrees());
         }
         getModuleStates();
     }
