@@ -197,10 +197,10 @@ public final class Constants {
     public static final int CPR = 2048;
     public static final int[] SWITCH_PORT = {0, 1};
     public static final boolean[] SWITCHES_INVERTED = {false, false};
-    public static final ProfiledPIDController PID = new ProfiledPIDController(1, 0, 0, 
+    public static final ProfiledPIDController PID = new ProfiledPIDController(151.7, 0, 10.08, 
         new Constraints(1, 1)
     );
-    public static final ElevatorFeedforward FF = new ElevatorFeedforward(1, 0, 0, 0);
+    public static final ElevatorFeedforward FF = new ElevatorFeedforward(0.0905, 0.0555, 7.6, 0.391);
     public static final ElevatorConstants constants = new ElevatorConstants(GEARING, RTM, SOFT_LIMITS, ZERO_OFFSET, CPR,
             SWITCH_PORT, SWITCHES_INVERTED, PID, FF);
   }
