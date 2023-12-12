@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DualStickSwerve;
 import frc.robot.commands.ElevatorDown;
 import frc.robot.commands.ElevatorUp;
+import frc.robot.commands.WristDown;
+import frc.robot.commands.WristUp;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
@@ -36,22 +38,29 @@ public class RobotContainer {
     configureBindings();
   }
   /* Controller 2 Bindings
-  DPad Up = elevatorUp
-  DPad Down = elevatorDown
-  Right Bumper = wristUp
-  Left Bumper = wristDown
+  DPad Up = elevatorTop
+  DPad Down = elevatorBottom
+  Right Bumper = wristTop
+  Left Bumper = wristBottom
   A = Forward Intake
   B = Backward Intake
+  X = Manual ElevatorUp
+  Y = Manual ElevatorDown
+  Right Trigger = Manual WristUp
+  Left Trigger = Manual WristDown
   */
   private void configureBindings() {
     xbox2.povUp().onTrue(new InstantCommand(elevator::elevatorTop));
     xbox2.povDown().onTrue(new InstantCommand(elevator::elevatorBottom));
-    xbox2.rightBumper().onTrue(new InstantCommand(wrist::wristUp));
-    xbox2.leftBumper().onTrue(new InstantCommand(wrist::wristDown));
+    xbox2.rightBumper().onTrue(new InstantCommand(wrist::wristTop));
+    xbox2.leftBumper().onTrue(new InstantCommand(wrist::wristBottom));
     xbox2.a().whileTrue(new InstantCommand(intake::forward));
     xbox2.b().whileTrue(new InstantCommand(intake::backward));
+    // set all below to xbox2 after done testing
     xbox.x().whileTrue(new ElevatorUp(elevator));
     xbox.y().whileTrue(new ElevatorDown(elevator));
+    xbox.rightTrigger().whileTrue(new WristUp(wrist));
+    xbox.leftTrigger().whileTrue(new WristDown(wrist));
   }
 
  

@@ -83,10 +83,10 @@ public class Wrist extends PivotingArmBase{
         SmartDashboard.putBoolean("Rear Limit Switch", getRearLimitSwitch().get());
     }
 
-    public void wristUp() {
+    public void wristTop() {
         setGoal(WristConstants.TOP_SETPOINT);
     }
-    public void wristDown() {
+    public void wristBottom() {
         setGoal(WristConstants.BOTTOM_SETPOINT);
     }
 }
