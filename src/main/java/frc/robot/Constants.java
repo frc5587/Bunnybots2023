@@ -191,7 +191,7 @@ public final class Constants {
     public static final int LEFT_MOTOR = 20;
     public static final int RIGHT_MOTOR = 21;
     public static final double GEARING = 5; 
-    public static final double RTM = 10;
+    public static final double RTM = 0.25;
     public static final double[] SOFT_LIMITS = {0, 1};
     public static final int ZERO_OFFSET = 10;
     public static final int CPR = 2048;
