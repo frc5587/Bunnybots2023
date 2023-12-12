@@ -17,7 +17,7 @@ public class Elevator extends ElevatorBase {
 
     public Elevator() {
         super(ElevConstants.constants, motors);
-        getController().disableContinuousInput();
+        // getController().enableContinuousInput();
     }
 
     public void elevatorUpSlow() {
@@ -74,7 +74,8 @@ public class Elevator extends ElevatorBase {
         SmartDashboard.putNumber("RMOTOR SET TO", rightMotor.get());
         SmartDashboard.putNumber("LVOLTAGE", leftMotor.getBusVoltage());
         SmartDashboard.putNumber("RVOLTAGE", rightMotor.getBusVoltage());
-        SmartDashboard.putNumber("SETPOINT", getController().getSetpoint().position);
+        SmartDashboard.putNumber("SETPOINT", getController().getGoal().position);
+        SmartDashboard.putNumber("POSITION", getMeasurement());
     }
     public void elevatorTop() {
         setGoal(ElevConstants.TOP_POSITION);

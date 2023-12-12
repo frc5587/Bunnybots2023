@@ -119,7 +119,7 @@ public final class Constants {
             public static final int DRIVE_ID = 10;
             public static final int ANGLE_ID = 15;
             public static final int CANCODER_ID = 50;
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(244.07);
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(245.03);
             public static final boolean ENCODER_INVERTED = false;
             public static final SwerveModuleConstants MODULECONSTANTS = new SwerveModuleConstants(DRIVE_ID, ANGLE_ID,
                     CANCODER_ID, ANGLE_OFFSET);
@@ -130,7 +130,7 @@ public final class Constants {
             public static final int DRIVE_ID = 11;
             public static final int ANGLE_ID = 16;
             public static final int CANCODER_ID = 51;
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(151.52);
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(151.96);
             public static final boolean ENCODER_INVERTED = false;
             public static final SwerveModuleConstants MODULECONSTANTS = new SwerveModuleConstants(DRIVE_ID, ANGLE_ID,
                     CANCODER_ID, ANGLE_OFFSET);
@@ -141,7 +141,7 @@ public final class Constants {
             public static final int DRIVE_ID = 12;
             public static final int ANGLE_ID = 17;
             public static final int CANCODER_ID = 52;
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(350.06); // 260.332
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(17.92); // 260.332
             public static final boolean ENCODER_INVERTED = false;
             public static final SwerveModuleConstants MODULECONSTANTS = new SwerveModuleConstants(DRIVE_ID, ANGLE_ID,
                     CANCODER_ID, ANGLE_OFFSET);
@@ -152,7 +152,7 @@ public final class Constants {
             public static final int DRIVE_ID = 13;
             public static final int ANGLE_ID = 18;
             public static final int CANCODER_ID = 53;
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(179.56); // 194.169;
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(352.79); // 194.169;
             public static final boolean ENCODER_INVERTED = false;
             public static final SwerveModuleConstants MODULECONSTANTS = new SwerveModuleConstants(DRIVE_ID, ANGLE_ID,
                     CANCODER_ID, ANGLE_OFFSET);
@@ -185,16 +185,17 @@ public final class Constants {
     public static final int SUPPLY_LIMIT = 40;
     public static final int STATOR_LIMIT = 40;
     // elevator positions
-    public static final double TOP_POSITION = 1.3;
+    public static final double TOP_POSITION = 0.7;
     public static final double BOTTOM_POSITION = 0.25;
 
     public static final int LEFT_MOTOR = 20;
     public static final int RIGHT_MOTOR = 21;
-    public static final double GEARING = 5; 
+    public static final double GEARING = 15; 
     public static final double RTM = 0.25;
-    public static final double[] SOFT_LIMITS = {0, 1};
+    public static final double[] SOFT_LIMITS = {0, 0.8};
     public static final int ZERO_OFFSET = 10;
-    public static final int CPR = 2048;
+    // public static final int CPR = 42;
+    public static final int CPR = 1;
     public static final int[] SWITCH_PORT = {0, 1};
     public static final boolean[] SWITCHES_INVERTED = {false, false};
     public static final ProfiledPIDController PID = new ProfiledPIDController(151.7, 0, 10.08, 

@@ -72,10 +72,10 @@ public class SwerveModule {
     }
 
     public void setAngle(SwerveModuleState desiredState){
-        Rotation2d angle = new Rotation2d(desiredState.angle.getRotations() * SwerveConstants.ANGLE_GEAR_RATIO);//(Math.abs(desiredState.speedMetersPerSecond) <= (SwerveConstants.MAX_SPEED * 0.05)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 5%. Prevents Jittering.
-        SmartDashboard.putNumber("SETTING REFERENCE TO ", angle.getDegrees());
+        Rotation2d angle = desiredState.angle;// * SwerveConstants.ANGLE_GEAR_RATIO);//(Math.abs(desiredState.speedMetersPerSecond) <= (SwerveConstants.MAX_SPEED * 0.05)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 5%. Prevents Jittering.
+        SmartDashboard.putNumber("REFERENCE " + moduleNumber, angle.getDegrees());
         
-        mAngleMotor.getPIDController().setReference(angle.getDegrees(), ControlType.kPosition);
+        mAngleMotor.getPIDController().setReference(angle.getDegrees(), ControlType.kPosition, 0);
         lastAngle = angle;
     }
 
@@ -101,10 +101,10 @@ public class SwerveModule {
 
     private void configAngleMotor(){
         mAngleMotor.restoreFactoryDefaults();
-        mAngleMotor.getPIDController().setP(0.05);
-        mAngleMotor.getPIDController().setI(0);
-        mAngleMotor.getPIDController().setD(0);
-        mAngleMotor.getPIDController().setFF(0);
+        mAngleMotor.getPIDController().setP(0.05, 0);
+        mAngleMotor.getPIDController().setI(0, 0);
+        mAngleMotor.getPIDController().setD(0, 0);
+        mAngleMotor.getPIDController().setFF(0, 0);
         // mAngleMotor.getPIDController().setP(SwerveConstants.ANGLE_FPID.kP);
         // mAngleMotor.getPIDController().setI(SwerveConstants.ANGLE_FPID.kI);
         // mAngleMotor.getPIDController().setD(SwerveConstants.ANGLE_FPID.kD);
@@ -113,8 +113,12 @@ public class SwerveModule {
         mAngleMotor.getEncoder().setPositionConversionFactor(360 / SwerveConstants.ANGLE_GEAR_RATIO);
         mAngleMotor.setInverted(SwerveConstants.ANGLE_MOTOR_INVERTED);
         mAngleMotor.setIdleMode(IdleMode.kCoast);
+        mAngleMotor.getPIDController().setPositionPIDWrappingEnabled(true);
+        mAngleMotor.getPIDController().setOutputRange(-1, 1, 0);
+        mAngleMotor.getPIDController().setIZone(0, 0);
+        System.out.println(mAngleMotor.getPIDController().getOutputMax());
         mAngleMotor.burnFlash();
-        Timer.delay(1.5);
+        Timer.delay(4.5);
         resetToAbsolute();
     }
 
