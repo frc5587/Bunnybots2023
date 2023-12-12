@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DualStickSwerve;
+import frc.robot.commands.ElevatorDown;
+import frc.robot.commands.ElevatorUp;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
@@ -48,8 +50,8 @@ public class RobotContainer {
     xbox2.leftBumper().onTrue(new InstantCommand(wrist::wristDown));
     xbox2.a().whileTrue(new InstantCommand(intake::forward));
     xbox2.b().whileTrue(new InstantCommand(intake::backward));
-    xbox.x().whileTrue(new InstantCommand(elevator::elevatorUpSlow)).onFalse(new InstantCommand(elevator::stop));
-    xbox.y().whileTrue(new InstantCommand(elevator::elevatorDownSlow)).onFalse(new InstantCommand(elevator::stop));
+    xbox.x().whileTrue(new ElevatorUp(elevator));
+    xbox.y().whileTrue(new ElevatorDown(elevator));
   }
 
  
