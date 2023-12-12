@@ -21,7 +21,7 @@ import frc.robot.util.swervelib.util.SwerveModuleConstants;
 public class SwerveModule {
     public int moduleNumber;
     public Rotation2d angleOffset;
-    // private Rotation2d lastAngle;
+    private Rotation2d lastAngle;
     public static CTREConfigs ctreConfigs;
 
     public CANSparkMax mAngleMotor;
@@ -101,9 +101,9 @@ public class SwerveModule {
 
     private void configAngleMotor(){
         mAngleMotor.restoreFactoryDefaults();
-        mAngleMotor.getPIDController().setP(0.1);
-        mAngleMotor.getPIDController().setI(1e-4);
-        mAngleMotor.getPIDController().setD(1);
+        mAngleMotor.getPIDController().setP(0.05);
+        mAngleMotor.getPIDController().setI(0);
+        mAngleMotor.getPIDController().setD(0);
         mAngleMotor.getPIDController().setFF(0);
         // mAngleMotor.getPIDController().setP(SwerveConstants.ANGLE_FPID.kP);
         // mAngleMotor.getPIDController().setI(SwerveConstants.ANGLE_FPID.kI);
@@ -114,7 +114,7 @@ public class SwerveModule {
         mAngleMotor.setInverted(SwerveConstants.ANGLE_MOTOR_INVERTED);
         mAngleMotor.setIdleMode(IdleMode.kCoast);
         mAngleMotor.burnFlash();
-        Timer.delay(0.5);
+        Timer.delay(1.5);
         resetToAbsolute();
     }
 

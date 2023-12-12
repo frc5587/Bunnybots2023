@@ -76,5 +76,12 @@ public class Elevator extends ElevatorBase {
         SmartDashboard.putNumber("RVOLTAGE", rightMotor.getBusVoltage());
         SmartDashboard.putNumber("SETPOINT", getController().getSetpoint().position);
     }
+    public void elevatorTop() {
+        setGoal(ElevConstants.TOP_POSITION);
+    }
+
+    public void elevatorBottom() {
+        setGoal(ElevConstants.BOTTOM_POSITION);
+    }
 }
 
