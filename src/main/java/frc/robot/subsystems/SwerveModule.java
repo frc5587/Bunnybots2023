@@ -11,6 +11,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.swervelib.math.Conversions;
 import frc.robot.util.swervelib.util.CTREConfigs;
@@ -20,7 +21,7 @@ import frc.robot.util.swervelib.util.SwerveModuleConstants;
 public class SwerveModule {
     public int moduleNumber;
     public Rotation2d angleOffset;
-    private Rotation2d lastAngle;
+    // private Rotation2d lastAngle;
     public static CTREConfigs ctreConfigs;
 
     public CANSparkMax mAngleMotor;
@@ -71,7 +72,8 @@ public class SwerveModule {
     }
 
     public void setAngle(SwerveModuleState desiredState){
-        Rotation2d angle = desiredState.angle;//(Math.abs(desiredState.speedMetersPerSecond) <= (SwerveConstants.MAX_SPEED * 0.05)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 5%. Prevents Jittering.
+        Rotation2d angle = new Rotation2d(desiredState.angle.getRotations() * SwerveConstants.ANGLE_GEAR_RATIO);//(Math.abs(desiredState.speedMetersPerSecond) <= (SwerveConstants.MAX_SPEED * 0.05)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 5%. Prevents Jittering.
+        SmartDashboard.putNumber("SETTING REFERENCE TO ", angle.getDegrees());
         
         mAngleMotor.getPIDController().setReference(angle.getDegrees(), ControlType.kPosition);
         lastAngle = angle;

@@ -29,6 +29,8 @@ public class Conversions {
         return positionCounts * (360.0 / (gearRatio)); // gearRatio * 42
     }
 
+    // public static double rotationsToDegrees()
+
     /**
      * @param degrees Degrees of rotation of Mechanism
      * @param gearRatio Gear Ratio between Falcon and Mechanism
@@ -44,7 +46,7 @@ public class Conversions {
      * @return RPM of Mechanism
      */
     public static double falconToRPM(double velocityCounts, double gearRatio) {
-        double motorRPM = velocityCounts * (600.0); // 600/42  
+        double motorRPM = velocityCounts * (600.0 / 42.); // 600/42  
         double mechRPM = motorRPM / gearRatio;
         return mechRPM;
     }

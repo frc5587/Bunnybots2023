@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ElevConstants;
 
 public class Elevator extends ElevatorBase {
@@ -16,14 +17,15 @@ public class Elevator extends ElevatorBase {
 
     public Elevator() {
         super(ElevConstants.constants, motors);
+        getController().disableContinuousInput();
     }
 
     public void elevatorUpSlow() {
-        set(0.1);
+        setVoltage(2);
     }
 
     public void elevatorDownSlow() {
-        set(-0.1);
+        setVoltage(-2);
     }
 
     public void elevatorUp() {
@@ -57,13 +59,22 @@ public class Elevator extends ElevatorBase {
         leftMotor.setInverted(ElevConstants.LEFT_MOTOR_INVERTED);
         rightMotor.setInverted(ElevConstants.RIGHT_MOTOR_INVERTED);
 
-        leftMotor.setSmartCurrentLimit(ElevConstants.SUPPLY_LIMIT, ElevConstants.STATOR_LIMIT);
-        rightMotor.setSmartCurrentLimit(ElevConstants.SUPPLY_LIMIT, ElevConstants.STATOR_LIMIT);
+        // leftMotor.setSmartCurrentLimit(ElevConstants.SUPPLY_LIMIT, ElevConstants.STATOR_LIMIT);
+        // rightMotor.setSmartCurrentLimit(ElevConstants.SUPPLY_LIMIT, ElevConstants.STATOR_LIMIT);
 
         leftMotor.setIdleMode(IdleMode.kBrake);
         rightMotor.setIdleMode(IdleMode.kBrake);
         
         
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("LMOTOR SET TO", leftMotor.get());
+        SmartDashboard.putNumber("RMOTOR SET TO", rightMotor.get());
+        SmartDashboard.putNumber("LVOLTAGE", leftMotor.getBusVoltage());
+        SmartDashboard.putNumber("RVOLTAGE", rightMotor.getBusVoltage());
+        SmartDashboard.putNumber("SETPOINT", getController().getSetpoint().position);
     }
 }
 
