@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.swervelib.math.Conversions;
 import frc.robot.util.swervelib.util.CTREConfigs;
@@ -72,12 +73,13 @@ public class SwerveModule {
     public void setAngle(SwerveModuleState desiredState){
         Rotation2d angle = desiredState.angle;//(Math.abs(desiredState.speedMetersPerSecond) <= (SwerveConstants.MAX_SPEED * 0.05)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 5%. Prevents Jittering.
         
-        mAngleMotor.getPIDController().setReference(angle.getRotations(), ControlType.kPosition);
+        mAngleMotor.getPIDController().setReference(angle.getDegrees(), ControlType.kPosition);
         lastAngle = angle;
     }
 
     private Rotation2d getAngle(){
-        return Rotation2d.fromDegrees(Conversions.falconToDegrees(mAngleMotor.getEncoder().getPosition(), SwerveConstants.ANGLE_GEAR_RATIO));
+        // return Rotation2d.fromDegrees(Conversions.falconToDegrees(mAngleMotor.getEncoder().getPosition(), SwerveConstants.ANGLE_GEAR_RATIO));
+        return Rotation2d.fromDegrees(mAngleMotor.getEncoder().getPosition());
     }
 
     public Rotation2d getCanCoder(){
@@ -85,7 +87,8 @@ public class SwerveModule {
     }
 
     public void resetToAbsolute(){
-        double absolutePosition = Conversions.degreesToFalcon(getCanCoder().getDegrees() - angleOffset.getDegrees(), SwerveConstants.ANGLE_GEAR_RATIO);
+        // double absolutePosition = Conversions.degreesToFalcon(getCanCoder().getDegrees() - angleOffset.getDegrees(), SwerveConstants.ANGLE_GEAR_RATIO);
+        double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
         mAngleMotor.getEncoder().setPosition(absolutePosition);
     }
 
@@ -96,13 +99,20 @@ public class SwerveModule {
 
     private void configAngleMotor(){
         mAngleMotor.restoreFactoryDefaults();
-        mAngleMotor.getPIDController().setP(SwerveConstants.ANGLE_FPID.kP);
-        mAngleMotor.getPIDController().setI(SwerveConstants.ANGLE_FPID.kI);
-        mAngleMotor.getPIDController().setD(SwerveConstants.ANGLE_FPID.kD);
-        mAngleMotor.getPIDController().setFF(SwerveConstants.ANGLE_FPID.kF);
-        // mAngleMotor.configAllSettings(ctreConfigs.swerveAngleFXConfig);
+        mAngleMotor.getPIDController().setP(0.1);
+        mAngleMotor.getPIDController().setI(1e-4);
+        mAngleMotor.getPIDController().setD(1);
+        mAngleMotor.getPIDController().setFF(0);
+        // mAngleMotor.getPIDController().setP(SwerveConstants.ANGLE_FPID.kP);
+        // mAngleMotor.getPIDController().setI(SwerveConstants.ANGLE_FPID.kI);
+        // mAngleMotor.getPIDController().setD(SwerveConstants.ANGLE_FPID.kD);
+        // mAngleMotor.getPIDController().setFF(SwerveConstants.ANGLE_FPID.kF);
+        mAngleMotor.setSmartCurrentLimit(30);
+        mAngleMotor.getEncoder().setPositionConversionFactor(360 / SwerveConstants.ANGLE_GEAR_RATIO);
         mAngleMotor.setInverted(SwerveConstants.ANGLE_MOTOR_INVERTED);
         mAngleMotor.setIdleMode(IdleMode.kCoast);
+        mAngleMotor.burnFlash();
+        Timer.delay(0.5);
         resetToAbsolute();
     }
 
@@ -110,7 +120,6 @@ public class SwerveModule {
         mDriveMotor.restoreFactoryDefaults();
         mDriveMotor.setInverted(SwerveConstants.DRIVE_MOTOR_INVERTED);
         mDriveMotor.setIdleMode(IdleMode.kBrake);
-        mDriveMotor.getEncoder().setPosition(0);
         mDriveMotor.getPIDController().setP(SwerveConstants.DRIVE_FPID.kP);
         mDriveMotor.getPIDController().setI(SwerveConstants.DRIVE_FPID.kI);
         mDriveMotor.getPIDController().setD(SwerveConstants.DRIVE_FPID.kD);
@@ -118,6 +127,10 @@ public class SwerveModule {
         mDriveMotor.setOpenLoopRampRate(SwerveConstants.OPEN_LOOP_RAMP);
         mDriveMotor.setClosedLoopRampRate(SwerveConstants.CLOSED_LOOP_RAMP);
         mDriveMotor.setSmartCurrentLimit(SwerveConstants.DRIVE_PEAK_LIMIT, SwerveConstants.DRIVE_CONT_LIMIT);
+        mDriveMotor.getEncoder().setPositionConversionFactor(SwerveConstants.WHEEL_CIRCUMFERENCE_METERS / SwerveConstants.DRIVE_GEAR_RATIO);
+        mDriveMotor.getEncoder().setVelocityConversionFactor((SwerveConstants.WHEEL_CIRCUMFERENCE_METERS / SwerveConstants.DRIVE_GEAR_RATIO) / 60.);
+        mDriveMotor.getEncoder().setPosition(0);
+        mAngleMotor.burnFlash();
     }
 
     public SwerveModuleState getState(){

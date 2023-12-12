@@ -40,8 +40,8 @@ public final class Constants {
             COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
 
         /* Drivetrain Constants */
-        public static final double TRACK_WIDTH = Units.inchesToMeters(19.51); // distance from left wheel to right wheel
-        public static final double WHEEL_BASE = Units.inchesToMeters(21.25); // distance from front wheel to back wheel
+        public static final double TRACK_WIDTH = Units.inchesToMeters(22); // distance from left wheel to right wheel
+        public static final double WHEEL_BASE = Units.inchesToMeters(22); // distance from front wheel to back wheel
         public static final double WHEEL_CIRCUMFERENCE_METERS = CHOSEN_MODULE.wheelCircumference;
 
         /*
