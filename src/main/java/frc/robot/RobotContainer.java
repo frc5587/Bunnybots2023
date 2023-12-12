@@ -44,8 +44,8 @@ public class RobotContainer {
   B = Backward Intake
   */
   private void configureBindings() {
-    xbox2.povUp().onTrue(new InstantCommand(elevator::elevatorUp));
-    xbox2.povDown().onTrue(new InstantCommand(elevator::elevatorDown));
+    xbox2.povUp().onTrue(new InstantCommand(elevator::elevatorTop));
+    xbox2.povDown().onTrue(new InstantCommand(elevator::elevatorBottom));
     xbox2.rightBumper().onTrue(new InstantCommand(wrist::wristUp));
     xbox2.leftBumper().onTrue(new InstantCommand(wrist::wristDown));
     xbox2.a().whileTrue(new InstantCommand(intake::forward));
