@@ -35,8 +35,8 @@ public class RobotContainer {
     private final Wrist wrist = new Wrist();
 
     // CONTROLLERS:
-    private final DeadbandCommandXboxController xbox = new DeadbandCommandXboxController(0);
-    private final DeadbandCommandXboxController xbox2 = new DeadbandCommandXboxController(1);
+    private final DeadbandCommandXboxController xbox = new DeadbandCommandXboxController(0, 0.4);
+    private final DeadbandCommandXboxController xbox2 = new DeadbandCommandXboxController(1, 0.4);
 
     // COMMANDS:
     private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getRightY, xbox::getRightX,
@@ -59,8 +59,8 @@ public class RobotContainer {
   Left Trigger = Manual WristDown
   */
   private void configureBindings() {
-    xbox2.povUp().onTrue(new InstantCommand(elevator::elevatorTop));
-    xbox2.povDown().onTrue(new InstantCommand(elevator::elevatorBottom));
+    xbox.povUp().onTrue(new InstantCommand(elevator::elevatorTop));
+    xbox.povDown().onTrue(new InstantCommand(elevator::elevatorBottom));
     xbox2.rightBumper().onTrue(new InstantCommand(wrist::wristTop));
     xbox2.leftBumper().onTrue(new InstantCommand(wrist::wristBottom));
     xbox2.a().whileTrue(new InstantCommand(intake::forward));

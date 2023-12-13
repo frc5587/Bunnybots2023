@@ -117,7 +117,6 @@ public class Swerve extends SubsystemBase {
         SwerveModuleState[] states = new SwerveModuleState[4];
         for(SwerveModule mod : mSwerveMods){
             states[mod.moduleNumber] = mod.getState();
-            SmartDashboard.putString("Mod " + mod.moduleNumber + " State", states[mod.moduleNumber].toString());
         }
         return states;
     }
