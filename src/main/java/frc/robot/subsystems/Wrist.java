@@ -14,6 +14,7 @@ public class Wrist extends PivotingArmBase {
 
     private final DigitalInput frontLimitSwitch = new DigitalInput(WristConstants.SWITCH_PORTS[0]);
     private final DigitalInput rearLimitSwitch = new DigitalInput(WristConstants.SWITCH_PORTS[1]);
+    // private final DutyCycleEncoder throughBore = new DutyCycleEncoder(1);
 
     public static PivotingArmConstants constants = new PivotingArmConstants(
         WristConstants.GEARING,
@@ -34,6 +35,7 @@ public class Wrist extends PivotingArmBase {
         super("wrist", constants, motor);
         enable();
         setGoal(0);
+        // throughBore.setDutyCycleRange(1./1024., 1023./1024.); // change depending on us range
     }
 
     public DigitalInput getFrontLimitSwitch() {
@@ -46,7 +48,8 @@ public class Wrist extends PivotingArmBase {
 
     @Override
     public double getEncoderPosition() {
-        return motor.getEncoder().getPosition();
+        // return -(throughBore.getAbsolutePosition() - throughBore.getPositionOffset());
+        return motor.getEncoder().getVelocity();
     }
 
     @Override
@@ -69,15 +72,11 @@ public class Wrist extends PivotingArmBase {
     }
     
     public void forward() {
-        if(!getFrontLimitSwitch().get()) {
-            motor.set(0.3);
-        }
+        motor.set(0.3);
     }
 
     public void back() {
-        if(!getRearLimitSwitch().get()) {
-            motor.set(-0.3);
-        }
+        motor.set(-0.3);
     }
 
     public void wristTop() {
@@ -99,5 +98,10 @@ public class Wrist extends PivotingArmBase {
             resetEncoders();
         }
         SmartDashboard.putBoolean("Reset Encoders", false);
+
+        // if(!throughBore.isConnected()) {
+        //     this.disable();
+        //     this.stop();
+        // }
     }
 }
