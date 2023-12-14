@@ -211,6 +211,7 @@ public final class Constants {
 
     public static final double TOP_SETPOINT = Math.toRadians(30);
     public static final double BOTTOM_SETPOINT = Math.toRadians(0);
+    public static final double RESTING_SETPOINT = Math.toRadians(10);
     
     public static final double GEARING = 64;
     public static final double[] SOFT_LIMITS = {Math.toRadians(0), Math.toRadians(180)};

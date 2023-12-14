@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.DualStickSwerve;
 import frc.robot.commands.ElevatorDown;
 import frc.robot.commands.ElevatorUp;
+import frc.robot.commands.TriggerWrist;
 import frc.robot.commands.WristDown;
 import frc.robot.commands.WristUp;
 import frc.robot.subsystems.Elevator;
@@ -41,9 +42,11 @@ public class RobotContainer {
     // COMMANDS:
     private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getRightY, xbox::getRightX,
             xbox::getLeftX, () -> false);
+    private final TriggerWrist triggerwWrist = new TriggerWrist(wrist, xbox::getLeftTriggerAxis, xbox::getRightTriggerAxis);
             
   public RobotContainer() {
     swerve.setDefaultCommand(driveCommand);
+    wrist.setDefaultCommand(triggerwWrist);
     configureBindings();
   }
   /* Controller 2 Bindings
