@@ -72,7 +72,7 @@ public class SwerveModule {
     }
 
     public void setAngle(SwerveModuleState desiredState){
-        Rotation2d angle = desiredState.angle;// * SwerveConstants.ANGLE_GEAR_RATIO);//(Math.abs(desiredState.speedMetersPerSecond) <= (SwerveConstants.MAX_SPEED * 0.05)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 5%. Prevents Jittering.
+        Rotation2d angle = (Math.abs(desiredState.speedMetersPerSecond) <= (SwerveConstants.MAX_SPEED * 0.05)) ? lastAngle : desiredState.angle; //Prevent rotating module if speed is less then 5%. Prevents Jittering.
         SmartDashboard.putNumber("REFERENCE " + moduleNumber, angle.getDegrees());
         
         mAngleMotor.getPIDController().setReference(angle.getDegrees(), ControlType.kPosition, 0);

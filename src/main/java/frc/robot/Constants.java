@@ -40,8 +40,8 @@ public final class Constants {
             COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
 
         /* Drivetrain Constants */
-        public static final double TRACK_WIDTH = Units.inchesToMeters(22); // distance from left wheel to right wheel
-        public static final double WHEEL_BASE = Units.inchesToMeters(22); // distance from front wheel to back wheel
+        public static final double TRACK_WIDTH = Units.inchesToMeters(22.5); // distance from left wheel to right wheel
+        public static final double WHEEL_BASE = Units.inchesToMeters(22.5); // distance from front wheel to back wheel
         public static final double WHEEL_CIRCUMFERENCE_METERS = CHOSEN_MODULE.wheelCircumference;
 
         /*
@@ -50,10 +50,10 @@ public final class Constants {
          * rectangular/square 4 module swerve
          */
         public static final SwerveDriveKinematics SWERVE_KINEMATICS = new SwerveDriveKinematics(
-                new Translation2d(WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
                 new Translation2d(WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0),
-                new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
-                new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0));
+                new Translation2d(WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
+                new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0),
+                new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0));
 
         /* Module Gear Ratios */
         public static final double DRIVE_GEAR_RATIO = CHOSEN_MODULE.driveGearRatio;
@@ -185,21 +185,20 @@ public final class Constants {
     public static final int SUPPLY_LIMIT = 40;
     public static final int STATOR_LIMIT = 40;
     // elevator positions
-    public static final double TOP_POSITION = 0.7;
-    public static final double BOTTOM_POSITION = 0.25;
-
+    public static final double TOP_POSITION = 0.835;
+    public static final double BOTTOM_POSITION = 0.025;
     public static final int LEFT_MOTOR = 20;
     public static final int RIGHT_MOTOR = 21;
     public static final double GEARING = 15; 
     public static final double RTM = 0.25;
     public static final double[] SOFT_LIMITS = {0, 0.8};
-    public static final int ZERO_OFFSET = 10;
+    public static final int ZERO_OFFSET = 0;
     // public static final int CPR = 42;
     public static final int CPR = 1;
     public static final int[] SWITCH_PORT = {0, 1};
     public static final boolean[] SWITCHES_INVERTED = {false, false};
-    public static final ProfiledPIDController PID = new ProfiledPIDController(151.7, 0, 10.08, 
-        new Constraints(1, 1)
+    public static final ProfiledPIDController PID = new ProfiledPIDController(10, 0, 0,//151.7, 0, 10.08, 
+        new Constraints(1, 0.5)
     );
     public static final ElevatorFeedforward FF = new ElevatorFeedforward(0.0905, 0.0555, 7.6, 0.391);
     public static final ElevatorConstants constants = new ElevatorConstants(GEARING, RTM, SOFT_LIMITS, ZERO_OFFSET, CPR,
@@ -210,17 +209,18 @@ public final class Constants {
     public static final int MOTOR_ID = 30;
     public static final boolean MOTOR_INVERTED = false;
 
-    public static final double TOP_SETPOINT = Math.toRadians(30);
-    public static final double BOTTOM_SETPOINT = Math.toRadians(0);
+    public static final double TOP_SETPOINT = Math.toRadians(55);
+    public static final double BOTTOM_SETPOINT = Math.toRadians(-10);
+    public static final double RESTING_SETPOINT = Math.toRadians(0);
     
-    public static final double GEARING = 64;
-    public static final double[] SOFT_LIMITS = {Math.toRadians(0), Math.toRadians(180)};
+    public static final double GEARING = 25;
+    public static final double[] SOFT_LIMITS = {Math.toRadians(-10), Math.toRadians(20)};
     public static final int ZERO_OFFSET = 0;
-    public static final int ENCODER_CPR = 42;
+    public static final int ENCODER_CPR = 1;
     public static final int[] SWITCH_PORTS = {2, 3};
     public static final boolean[] SWITCH_INVERTIONS = {false, false};
-    public static final ProfiledPIDController PID = new ProfiledPIDController(6.9012, 0, 1.5006, new Constraints(5, 50));
-    public static final ArmFeedforward FF = new ArmFeedforward(0.34905, -0.032397, 1.23, 0.083365);
+    public static final ProfiledPIDController PID = new ProfiledPIDController(5.3519, 0, 0.39777, new Constraints(1, 0.5));
+    public static final ArmFeedforward FF = new ArmFeedforward(0.57883, 0.24069, 0.45323, 0.015014);
     public static final int STALL_LIMIT = 35;
     public static final int FREE_LIMIT = 40;
   }

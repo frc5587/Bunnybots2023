@@ -175,7 +175,10 @@ public abstract class PivotingArmBase extends ProfiledPIDSubsystem {
     @Override
     public void useOutput(double output, TrapezoidProfile.State setpoint) {
         double ff = ffController.calculate(setpoint.position+constants.offsetFromHorizontalRadians, setpoint.velocity);
-        
+        SmartDashboard.putNumber("Output + ff", output + ff);
+        SmartDashboard.putNumber("Wrist Pos", getAngleDegrees());
+        SmartDashboard.putNumber("Wrist Setpoint", Math.toDegrees(setpoint.position));
+
         /** if the driver has set output on, useOutput. */
         if(SmartDashboard.getBoolean(subsystemName + " Output On?", true)) {
             setVoltage(output + ff);

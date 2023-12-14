@@ -9,10 +9,6 @@ import org.frc5587.lib.control.DeadbandCommandXboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.DualStickSwerve;
-import frc.robot.commands.ElevatorDown;
-import frc.robot.commands.ElevatorUp;
-import frc.robot.commands.WristDown;
-import frc.robot.commands.WristUp;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
@@ -35,41 +31,36 @@ public class RobotContainer {
     private final Wrist wrist = new Wrist();
 
     // CONTROLLERS:
-    private final DeadbandCommandXboxController xbox = new DeadbandCommandXboxController(0);
-    private final DeadbandCommandXboxController xbox2 = new DeadbandCommandXboxController(1);
+    private final DeadbandCommandXboxController xbox = new DeadbandCommandXboxController(0, 0.4);
+    private final DeadbandCommandXboxController xbox2 = new DeadbandCommandXboxController(1, 0.4);
 
     // COMMANDS:
     private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getRightY, xbox::getRightX,
             xbox::getLeftX, () -> false);
+    // private final TriggerWrist triggerwWrist = new TriggerWrist(wrist, xbox::getLeftTriggerAxis, xbox::getRightTriggerAxis);
             
   public RobotContainer() {
     swerve.setDefaultCommand(driveCommand);
+    // wrist.setDefaultCommand(triggerwWrist);
     configureBindings();
   }
   /* Controller 2 Bindings
   DPad Up = elevatorTop
   DPad Down = elevatorBottom
-  Right Bumper = wristTop
-  Left Bumper = wristBottom
-  A = Forward Intake
-  B = Backward Intake
-  X = Manual ElevatorUp
-  Y = Manual ElevatorDown
-  Right Trigger = Manual WristUp
-  Left Trigger = Manual WristDown
+  Right Bumper = Forward Intake
+  Left Bumper = Backward Intake
+  A = wristTop
+  B = wristMid
+  Y = wristBottom
   */
   private void configureBindings() {
     xbox2.povUp().onTrue(new InstantCommand(elevator::elevatorTop));
     xbox2.povDown().onTrue(new InstantCommand(elevator::elevatorBottom));
-    xbox2.rightBumper().onTrue(new InstantCommand(wrist::wristTop));
-    xbox2.leftBumper().onTrue(new InstantCommand(wrist::wristBottom));
-    xbox2.a().whileTrue(new InstantCommand(intake::forward));
-    xbox2.b().whileTrue(new InstantCommand(intake::backward));
-    // set all below to xbox2 after done testing
-    xbox.x().whileTrue(new ElevatorUp(elevator));
-    xbox.y().whileTrue(new ElevatorDown(elevator));
-    xbox.rightTrigger().whileTrue(new WristUp(wrist));
-    xbox.leftTrigger().whileTrue(new WristDown(wrist));
+    xbox2.y().onTrue(new InstantCommand(wrist::wristTop));
+    xbox2.b().onTrue(new InstantCommand(wrist::wristMid));
+    xbox2.a().onTrue(new InstantCommand(wrist::wristBottom));
+    xbox2.rightBumper().whileTrue(new InstantCommand(intake::forward)).onFalse(new InstantCommand(intake::stop));
+    xbox2.leftBumper().whileTrue(new InstantCommand(intake::backward)).onFalse(new InstantCommand(intake::stop));
   }
 
  

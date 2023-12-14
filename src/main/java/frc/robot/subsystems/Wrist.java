@@ -32,6 +32,7 @@ public class Wrist extends PivotingArmBase {
     
     public Wrist(CANSparkMax motor) {
         super("wrist", constants, motor);
+        enable();
         setGoal(0);
     }
 
@@ -79,17 +80,24 @@ public class Wrist extends PivotingArmBase {
         }
     }
 
-    @Override
-    public void periodic() {
-        super.periodic();
-        SmartDashboard.putBoolean("Front Limit Switch", getFrontLimitSwitch().get());
-        SmartDashboard.putBoolean("Rear Limit Switch", getRearLimitSwitch().get());
-    }
-
     public void wristTop() {
         setGoal(WristConstants.TOP_SETPOINT);
     }
+
+    public void wristMid() {
+        setGoal(WristConstants.RESTING_SETPOINT);
+    }
+
     public void wristBottom() {
         setGoal(WristConstants.BOTTOM_SETPOINT);
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+        if(SmartDashboard.getBoolean("Reset Encoders", false)) {
+            resetEncoders();
+        }
+        SmartDashboard.putBoolean("Reset Encoders", false);
     }
 }

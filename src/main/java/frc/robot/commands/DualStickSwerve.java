@@ -32,7 +32,7 @@ public class DualStickSwerve extends CommandBase {
         SmartDashboard.putNumber("StrafeSupplier", strafeSup.getAsDouble());
         SmartDashboard.putNumber("RotationSupplier", rotationSup.getAsDouble());
         
-        Translation2d translation = new Translation2d(translationSup.getAsDouble(), strafeSup.getAsDouble()).times(SwerveConstants.MAX_SPEED);
+        Translation2d translation = new Translation2d(translationSup.getAsDouble(), -strafeSup.getAsDouble()).times(SwerveConstants.MAX_SPEED);
         double rotation = rotationSup.getAsDouble() * SwerveConstants.MAX_ANGULAR_VELOCITY;
         
         swerve.drive(translation, rotation,
