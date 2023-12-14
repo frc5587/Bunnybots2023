@@ -176,7 +176,7 @@ public final class Constants {
     public static final int FREE_LIMIT = 25;
     // motor speeds
     public static final double FORWARD_THROTTLE = 0.75;
-    public static final double REVERSE_THROTTLE = 0.25;
+    public static final double REVERSE_THROTTLE = 0.75;
   }
 
   public static final class ElevConstants {

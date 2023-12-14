@@ -32,6 +32,7 @@ public class Wrist extends PivotingArmBase {
     
     public Wrist(CANSparkMax motor) {
         super("wrist", constants, motor);
+        setGoal(0);
     }
 
     public DigitalInput getFrontLimitSwitch() {
