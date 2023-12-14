@@ -42,11 +42,11 @@ public class RobotContainer {
     // COMMANDS:
     private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getRightY, xbox::getRightX,
             xbox::getLeftX, () -> false);
-    private final TriggerWrist triggerwWrist = new TriggerWrist(wrist, xbox::getLeftTriggerAxis, xbox::getRightTriggerAxis);
+    // private final TriggerWrist triggerwWrist = new TriggerWrist(wrist, xbox::getLeftTriggerAxis, xbox::getRightTriggerAxis);
             
   public RobotContainer() {
     swerve.setDefaultCommand(driveCommand);
-    wrist.setDefaultCommand(triggerwWrist);
+    // wrist.setDefaultCommand(triggerwWrist);
     configureBindings();
   }
   /* Controller 2 Bindings
@@ -62,17 +62,13 @@ public class RobotContainer {
   Left Trigger = Manual WristDown
   */
   private void configureBindings() {
-    xbox.povUp().onTrue(new InstantCommand(elevator::elevatorTop));
-    xbox.povDown().onTrue(new InstantCommand(elevator::elevatorBottom));
-    xbox2.rightBumper().onTrue(new InstantCommand(wrist::wristTop));
-    xbox2.leftBumper().onTrue(new InstantCommand(wrist::wristBottom));
-    xbox2.a().whileTrue(new InstantCommand(intake::forward));
-    xbox2.b().whileTrue(new InstantCommand(intake::backward));
-    // set all below to xbox2 after done testing
-    xbox.x().whileTrue(new ElevatorUp(elevator));
-    xbox.y().whileTrue(new ElevatorDown(elevator));
-    xbox.rightTrigger().whileTrue(new WristUp(wrist));
-    xbox.leftTrigger().whileTrue(new WristDown(wrist));
+    xbox2.povUp().onTrue(new InstantCommand(elevator::elevatorTop));
+    xbox2.povDown().onTrue(new InstantCommand(elevator::elevatorBottom));
+    xbox2.y().onTrue(new InstantCommand(wrist::wristTop));
+    xbox2.b().onTrue(new InstantCommand(wrist::wristMid));
+    xbox2.a().onTrue(new InstantCommand(wrist::wristBottom));
+    xbox2.rightBumper().whileTrue(new InstantCommand(intake::forward)).onFalse(new InstantCommand(intake::stop));
+    xbox2.leftBumper().whileTrue(new InstantCommand(intake::backward)).onFalse(new InstantCommand(intake::stop));
   }
 
  

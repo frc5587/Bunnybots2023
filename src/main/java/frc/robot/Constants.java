@@ -209,18 +209,18 @@ public final class Constants {
     public static final int MOTOR_ID = 30;
     public static final boolean MOTOR_INVERTED = false;
 
-    public static final double TOP_SETPOINT = Math.toRadians(30);
-    public static final double BOTTOM_SETPOINT = Math.toRadians(0);
-    public static final double RESTING_SETPOINT = Math.toRadians(10);
+    public static final double TOP_SETPOINT = Math.toRadians(55);
+    public static final double BOTTOM_SETPOINT = Math.toRadians(-10);
+    public static final double RESTING_SETPOINT = Math.toRadians(0);
     
-    public static final double GEARING = 64;
-    public static final double[] SOFT_LIMITS = {Math.toRadians(0), Math.toRadians(180)};
+    public static final double GEARING = 25;
+    public static final double[] SOFT_LIMITS = {Math.toRadians(-10), Math.toRadians(20)};
     public static final int ZERO_OFFSET = 0;
-    public static final int ENCODER_CPR = 42;
+    public static final int ENCODER_CPR = 1;
     public static final int[] SWITCH_PORTS = {2, 3};
     public static final boolean[] SWITCH_INVERTIONS = {false, false};
-    public static final ProfiledPIDController PID = new ProfiledPIDController(6.9012, 0, 1.5006, new Constraints(5, 50));
-    public static final ArmFeedforward FF = new ArmFeedforward(0.34905, -0.032397, 1.23, 0.083365);
+    public static final ProfiledPIDController PID = new ProfiledPIDController(5.3519, 0, 0.39777, new Constraints(1, 0.5));
+    public static final ArmFeedforward FF = new ArmFeedforward(0.57883, 0.24069, 0.45323, 0.015014);
     public static final int STALL_LIMIT = 35;
     public static final int FREE_LIMIT = 40;
   }
