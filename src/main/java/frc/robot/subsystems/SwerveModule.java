@@ -92,6 +92,8 @@ public class SwerveModule {
         // double absolutePosition = Conversions.degreesToFalcon(getCanCoder().getDegrees() - angleOffset.getDegrees(), SwerveConstants.ANGLE_GEAR_RATIO);
         double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
         mAngleMotor.getEncoder().setPosition(absolutePosition);
+        lastAngle = new Rotation2d();
+        setAngle(new SwerveModuleState(0.05, Rotation2d.fromDegrees(0)));
     }
 
     private void configAngleEncoder(){        
@@ -118,7 +120,7 @@ public class SwerveModule {
         mAngleMotor.getPIDController().setIZone(0, 0);
         System.out.println(mAngleMotor.getPIDController().getOutputMax());
         mAngleMotor.burnFlash();
-        Timer.delay(4.5);
+        Timer.delay(3);
         resetToAbsolute();
     }
 

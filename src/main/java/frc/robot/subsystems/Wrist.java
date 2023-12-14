@@ -49,7 +49,7 @@ public class Wrist extends PivotingArmBase {
     @Override
     public double getEncoderPosition() {
         // return -(throughBore.getAbsolutePosition() - throughBore.getPositionOffset());
-        return motor.getEncoder().getVelocity();
+        return motor.getEncoder().getPosition();
     }
 
     @Override

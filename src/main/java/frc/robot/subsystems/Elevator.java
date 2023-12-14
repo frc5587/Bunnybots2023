@@ -73,7 +73,8 @@ public class Elevator extends ElevatorBase {
 
         leftMotor.burnFlash();
         rightMotor.burnFlash();
-        
+
+        resetEncoders();
     }
 
     @Override
