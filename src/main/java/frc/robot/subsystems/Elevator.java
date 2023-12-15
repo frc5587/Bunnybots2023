@@ -21,7 +21,7 @@ public class Elevator extends ElevatorBase {
         SmartDashboard.putBoolean("ELEVATOR OUTPUTENABLED", true);
         super.pidController = getController();
         configureMotors();
-        // getController().enableContinuousInput();
+        enable();
     }
 
     public void elevatorUpSlow() {
@@ -68,8 +68,6 @@ public class Elevator extends ElevatorBase {
 
         leftMotor.setIdleMode(IdleMode.kBrake);
         rightMotor.setIdleMode(IdleMode.kCoast);
-
-        // resetEncoders();
 
         leftMotor.burnFlash();
         rightMotor.burnFlash();

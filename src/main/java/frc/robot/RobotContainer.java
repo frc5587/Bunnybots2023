@@ -28,7 +28,7 @@ import frc.robot.subsystems.Wrist;
 public class RobotContainer {
     // SUBSYSTEMS:
     private final Elevator elevator = new Elevator();
-    private final Swerve swerve = new Swerve();
+    protected final Swerve swerve = new Swerve();
     private final Intake intake = new Intake();
     private final Wrist wrist = new Wrist();
 

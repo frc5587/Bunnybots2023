@@ -21,7 +21,7 @@ import frc.robot.util.swervelib.util.SwerveModuleConstants;
 public class SwerveModule {
     public int moduleNumber;
     public Rotation2d angleOffset;
-    private Rotation2d lastAngle;
+    private Rotation2d lastAngle = new Rotation2d();
     public static CTREConfigs ctreConfigs;
 
     public CANSparkMax mAngleMotor;
@@ -48,6 +48,11 @@ public class SwerveModule {
         /* Drive Motor Config */
         mDriveMotor = new CANSparkMax(moduleConstants.driveMotorID, MotorType.kBrushless);
         configDriveMotor();
+
+        /* Reset angle motor encoder to the position to CANCoder Position */
+        Timer.delay(1);
+        
+        resetToAbsolute();
 
         lastAngle = getState().angle;
     }
@@ -89,11 +94,9 @@ public class SwerveModule {
     }
 
     public void resetToAbsolute(){
-        // double absolutePosition = Conversions.degreesToFalcon(getCanCoder().getDegrees() - angleOffset.getDegrees(), SwerveConstants.ANGLE_GEAR_RATIO);
         double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
         mAngleMotor.getEncoder().setPosition(absolutePosition);
-        lastAngle = new Rotation2d();
-        setAngle(new SwerveModuleState(0.05, Rotation2d.fromDegrees(0)));
+        setAngle(new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)));
     }
 
     private void configAngleEncoder(){        
@@ -118,10 +121,7 @@ public class SwerveModule {
         mAngleMotor.getPIDController().setPositionPIDWrappingEnabled(true);
         mAngleMotor.getPIDController().setOutputRange(-1, 1, 0);
         mAngleMotor.getPIDController().setIZone(0, 0);
-        System.out.println(mAngleMotor.getPIDController().getOutputMax());
         mAngleMotor.burnFlash();
-        Timer.delay(3);
-        resetToAbsolute();
     }
 
     private void configDriveMotor(){        
