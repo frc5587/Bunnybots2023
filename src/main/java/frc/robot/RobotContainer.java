@@ -8,6 +8,7 @@ import org.frc5587.lib.control.DeadbandCommandXboxController;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.Auto;
 import frc.robot.commands.BottomAll;
 import frc.robot.commands.DualStickSwerve;
 import frc.robot.commands.TopAll;
@@ -57,9 +58,12 @@ public class RobotContainer {
   */
   private void configureBindings() {
     xbox2.povUp().onTrue(new InstantCommand(elevator::elevatorTop));
+    xbox2.povLeft().onTrue(new InstantCommand(elevator::elevatorMid));
+    xbox2.povRight().onTrue(new InstantCommand(elevator::elevatorMid));
     xbox2.povDown().onTrue(new InstantCommand(elevator::elevatorBottom));
     xbox2.y().onTrue(new InstantCommand(wrist::wristTop));
     xbox2.b().onTrue(new InstantCommand(wrist::wristMid));
+    xbox2.x().onTrue(new InstantCommand(wrist::wristMid));
     xbox2.a().onTrue(new InstantCommand(wrist::wristBottom));
     xbox2.rightBumper().whileTrue(new InstantCommand(intake::forward)).onFalse(new InstantCommand(intake::stop));
     xbox2.leftBumper().whileTrue(new InstantCommand(intake::backward)).onFalse(new InstantCommand(intake::stop));
@@ -69,7 +73,6 @@ public class RobotContainer {
 
  
   public Command getAutonomousCommand() {
-    return null;
-    // An example command will be run in autonomous
+    return new Auto(wrist, elevator, swerve, intake);
   }
 }

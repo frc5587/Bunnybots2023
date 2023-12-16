@@ -130,5 +130,9 @@ public class Elevator extends ElevatorBase {
     public void elevatorBottom() {
         setGoal(ElevConstants.BOTTOM_POSITION);
     }
+
+    public void elevatorMid() {
+        setGoal(ElevConstants.MIDDLE_POSITION);
+    }
 }
 

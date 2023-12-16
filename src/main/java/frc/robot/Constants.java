@@ -187,6 +187,7 @@ public final class Constants {
     // elevator positions
     public static final double TOP_POSITION = 0.835;
     public static final double BOTTOM_POSITION = 0.025;
+    public static final double MIDDLE_POSITION = 0.12;
     public static final int LEFT_MOTOR = 20;
     public static final int RIGHT_MOTOR = 21;
     public static final double GEARING = 15; 
