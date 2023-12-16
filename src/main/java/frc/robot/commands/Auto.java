@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -10,9 +11,13 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Wrist;
 
-public class Auto extends SequentialCommandGroup {
+public class Auto {
+    public SequentialCommandGroup scoreAndCross;
+    public SequentialCommandGroup justScore;
+    public ParallelDeadlineGroup justCross;
+    public CommandBase nothing;
     public Auto(Wrist wrist, Elevator elevator, Swerve swerve, Intake intake) {
-        super(
+        this.scoreAndCross = new SequentialCommandGroup(
             new TopAll(wrist, elevator),
             new WaitCommand(1),
             new InstantCommand(intake::forward),
@@ -36,5 +41,21 @@ public class Auto extends SequentialCommandGroup {
             ),
             new InstantCommand(swerve::stop)
         );
+        this.justScore = new SequentialCommandGroup(
+            new TopAll(wrist, elevator),
+            new WaitCommand(1),
+            new InstantCommand(intake::forward),
+            new WaitCommand(1),
+            new InstantCommand(intake::stop),
+            new BottomAll(wrist, elevator),
+            new WaitCommand(1)
+        );
+        this.justCross = new ParallelDeadlineGroup(
+            new WaitCommand(3),
+            new InstantCommand(
+                () -> {swerve.setChassisSpeeds(new ChassisSpeeds(1, 0, 0));} // move 1 meter per second for 5.5 seconds (with time allotted for acceleration), i.e. move 5.5 meters total. We're going backwards hence negative.
+            )
+        );
+        this.nothing = null; 
     }
 }
