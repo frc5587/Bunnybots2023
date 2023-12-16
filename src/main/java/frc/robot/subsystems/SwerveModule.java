@@ -50,9 +50,9 @@ public class SwerveModule {
         configDriveMotor();
 
         /* Reset angle motor encoder to the position to CANCoder Position */
-        Timer.delay(1);
-        
-        resetToAbsolute();
+        // Timer.delay(1);
+
+        // resetToAbsolute();
 
         lastAngle = getState().angle;
     }
@@ -96,7 +96,7 @@ public class SwerveModule {
     public void resetToAbsolute(){
         double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
         mAngleMotor.getEncoder().setPosition(absolutePosition);
-        setAngle(new SwerveModuleState(0.1, Rotation2d.fromDegrees(0)));
+        setAngle(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
     }
 
     private void configAngleEncoder(){        

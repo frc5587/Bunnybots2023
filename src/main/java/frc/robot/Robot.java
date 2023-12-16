@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
-        m_robotContainer.swerve.resetModulesToAbsolute();
+        // m_robotContainer.swerve.resetModulesToAbsolute();
     }
 
     /** This function is called periodically during autonomous. */
@@ -95,7 +95,8 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        m_robotContainer.swerve.resetModulesToAbsolute();
+        // m_robotContainer.swerve.stop();
+        // m_robotContainer.swerve.resetModulesToAbsolute();
     }
 
     /** This function is called periodically during operator control. */

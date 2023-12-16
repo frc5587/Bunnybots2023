@@ -40,15 +40,15 @@ public class Swerve extends SubsystemBase {
             new SwerveModule(3, SwerveConstants.Mod3.MODULECONSTANTS)
         };
         zeroGyro();
-        
-        Timer.delay(3.0);
-        resetModulesToAbsolute();
 
         this.odometry = new SwerveDriveOdometry(SwerveConstants.SWERVE_KINEMATICS, getYaw(), getModulePositions());
         this.poseEstimator = new SwerveDrivePoseEstimator(kinematics, getYaw(), getModulePositions(), getOdometryPose()); // Vision standard deviations.
 
         SmartDashboard.putData("Swerve Pose Field", field);
         SmartDashboard.putBoolean("Swerve Brake Mode", true);
+        
+        Timer.delay(3.0);
+        resetModulesToAbsolute();
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {

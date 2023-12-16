@@ -7,6 +7,7 @@ package frc.robot;
 import org.frc5587.lib.control.DeadbandCommandXboxController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.Auto;
@@ -39,8 +40,8 @@ public class RobotContainer {
     private final DeadbandCommandXboxController xbox2 = new DeadbandCommandXboxController(1, 0.4);
 
     // COMMANDS:
-    private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getRightY, xbox::getRightX,
-            xbox::getLeftX, () -> false);
+    private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getLeftY, xbox::getLeftX,
+           () -> {return -xbox.getRightX();}, () -> false);
     private final Auto auto = new Auto(wrist, elevator, swerve, intake);
     private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
     // private final TriggerWrist triggerwWrist = new TriggerWrist(wrist, xbox::getLeftTriggerAxis, xbox::getRightTriggerAxis);
@@ -48,9 +49,10 @@ public class RobotContainer {
   public RobotContainer() {
     swerve.setDefaultCommand(driveCommand);
     autoChooser.addOption("Score and Cross", auto.scoreAndCross);
-    autoChooser.addOption("Do Nothing", auto.nothing);
     autoChooser.addOption("Just Score", auto.justScore);
     autoChooser.addOption("Just Cross", auto.justCross);
+    autoChooser.setDefaultOption("Do Nothing", auto.nothing);
+    SmartDashboard.putData(autoChooser);
     // wrist.setDefaultCommand(triggerwWrist);
     configureBindings();
   }

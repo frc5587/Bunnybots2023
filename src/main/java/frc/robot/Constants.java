@@ -141,7 +141,7 @@ public final class Constants {
             public static final int DRIVE_ID = 12;
             public static final int ANGLE_ID = 17;
             public static final int CANCODER_ID = 52;
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(17.92); // 260.332
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(156.36); // 260.332
             public static final boolean ENCODER_INVERTED = false;
             public static final SwerveModuleConstants MODULECONSTANTS = new SwerveModuleConstants(DRIVE_ID, ANGLE_ID,
                     CANCODER_ID, ANGLE_OFFSET);
@@ -152,7 +152,7 @@ public final class Constants {
             public static final int DRIVE_ID = 13;
             public static final int ANGLE_ID = 18;
             public static final int CANCODER_ID = 53;
-            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(352.79); // 194.169;
+            public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(350.77); // 194.169;
             public static final boolean ENCODER_INVERTED = false;
             public static final SwerveModuleConstants MODULECONSTANTS = new SwerveModuleConstants(DRIVE_ID, ANGLE_ID,
                     CANCODER_ID, ANGLE_OFFSET);
@@ -210,13 +210,13 @@ public final class Constants {
     public static final int MOTOR_ID = 30;
     public static final boolean MOTOR_INVERTED = false;
 
-    public static final double TOP_SETPOINT = Math.toRadians(55);
+    public static final double TOP_SETPOINT = Math.toRadians(40);
     public static final double BOTTOM_SETPOINT = Math.toRadians(-10);
     public static final double RESTING_SETPOINT = Math.toRadians(0);
     
     public static final double GEARING = 25;
     public static final double[] SOFT_LIMITS = {Math.toRadians(-10), Math.toRadians(20)};
-    public static final int ZERO_OFFSET = 0;
+    public static final double ZERO_OFFSET = 0.;
     public static final int ENCODER_CPR = 1;
     public static final int[] SWITCH_PORTS = {2, 3};
     public static final boolean[] SWITCH_INVERTIONS = {false, false};

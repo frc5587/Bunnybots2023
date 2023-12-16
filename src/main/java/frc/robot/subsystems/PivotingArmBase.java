@@ -17,9 +17,9 @@ public abstract class PivotingArmBase extends ProfiledPIDSubsystem {
     protected String subsystemName;
 
     public static class PivotingArmConstants {
-        public final double gearing, velocityDenominator, offsetFromHorizontalRadians;
+        public final double gearing, velocityDenominator, offsetFromHorizontalRadians, zeroOffset;
         public final double[] softLimits;
-        public final int zeroOffset, encoderCPR;
+        public final int encoderCPR;
         public final ProfiledPIDController pid;
         public final ArmFeedforward ff;
 
@@ -28,7 +28,7 @@ public abstract class PivotingArmBase extends ProfiledPIDSubsystem {
                 double velocityDenominator,
                 double offsetFromHorizontalRadians,
                 double[] softLimits,
-                int zeroOffset,
+                double zeroOffset,
                 int encoderCPR,
                 ProfiledPIDController pid,
                 ArmFeedforward ff) {
@@ -176,7 +176,7 @@ public abstract class PivotingArmBase extends ProfiledPIDSubsystem {
     public void useOutput(double output, TrapezoidProfile.State setpoint) {
         double ff = ffController.calculate(setpoint.position+constants.offsetFromHorizontalRadians, setpoint.velocity);
         SmartDashboard.putNumber("Output + ff", output + ff);
-        SmartDashboard.putNumber("Wrist Pos", getAngleDegrees());
+        SmartDashboard.putNumber("Wrist Pos", getEncoderPosition());
         SmartDashboard.putNumber("Wrist Setpoint", Math.toDegrees(setpoint.position));
 
         /** if the driver has set output on, useOutput. */

@@ -34,6 +34,7 @@ public class Wrist extends PivotingArmBase {
     public Wrist(CANSparkMax motor) {
         super("wrist", constants, motor);
         enable();
+        // resetEncoders();
         setGoal(0);
         // throughBore.setDutyCycleRange(1./1024., 1023./1024.); // change depending on us range
     }
@@ -68,7 +69,7 @@ public class Wrist extends PivotingArmBase {
         motor.setIdleMode(IdleMode.kBrake);
         motor.setInverted(WristConstants.MOTOR_INVERTED);
         motor.setSmartCurrentLimit(WristConstants.STALL_LIMIT, WristConstants.FREE_LIMIT);
-        resetEncoders();
+        // resetEncoders();
     }
     
     public void forward() {

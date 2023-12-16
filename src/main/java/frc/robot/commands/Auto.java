@@ -4,6 +4,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Elevator;
@@ -36,7 +37,7 @@ public class Auto {
             new ParallelDeadlineGroup(
                 new WaitCommand(6),
                 new InstantCommand(
-                    () -> {swerve.setChassisSpeeds(new ChassisSpeeds(1, 0, 0));} // move 1 meter per second for 5.5 seconds (with time allotted for acceleration), i.e. move 5.5 meters total. We're going backwards hence negative.
+                    () -> {swerve.setChassisSpeeds(new ChassisSpeeds(-1, 0, 0));} // move 1 meter per second for 5.5 seconds (with time allotted for acceleration), i.e. move 5.5 meters total. We're going backwards hence negative.
                 ) 
             ),
             new InstantCommand(swerve::stop)
@@ -53,9 +54,9 @@ public class Auto {
         this.justCross = new ParallelDeadlineGroup(
             new WaitCommand(3),
             new InstantCommand(
-                () -> {swerve.setChassisSpeeds(new ChassisSpeeds(1, 0, 0));} // move 1 meter per second for 5.5 seconds (with time allotted for acceleration), i.e. move 5.5 meters total. We're going backwards hence negative.
+                () -> {swerve.setChassisSpeeds(new ChassisSpeeds(-1, 0, 0));} // move 1 meter per second for 5.5 seconds (with time allotted for acceleration), i.e. move 5.5 meters total. We're going backwards hence negative.
             )
         );
-        this.nothing = null; 
+        this.nothing = new RunCommand(swerve::stop, swerve); 
     }
 }
