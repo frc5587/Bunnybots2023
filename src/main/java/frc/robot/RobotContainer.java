@@ -6,6 +6,7 @@ package frc.robot;
 
 import org.frc5587.lib.control.DeadbandCommandXboxController;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -80,6 +81,11 @@ public class RobotContainer {
         xbox2.rightTrigger().onTrue(new BottomAll(wrist, elevator));
         xbox2.leftStick().onTrue(new InstantCommand(elevator::resetEncoders));
         xbox2.rightStick().onTrue(new InstantCommand(wrist::resetEncoders));
+        // xbox.a().onTrue(new InstantCommand(() -> {
+        //   if (!DriverStation.isEnabled()) {
+        //     swerve.resetModulesToAbsolute();
+        //   }
+        // })); // in case first method doesn't work 
     }
 
     public Command getAutonomousCommand() {
