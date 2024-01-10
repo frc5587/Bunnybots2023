@@ -37,7 +37,7 @@ public class RobotContainer {
     private final Wrist wrist = new Wrist();
 
     // CONTROLLERS:
-    private final DeadbandCommandXboxController xbox = new DeadbandCommandXboxController(0, 0.4);
+    private final DeadbandCommandXboxController xbox = new DeadbandCommandXboxController(0, .5);
     private final DeadbandCommandXboxController xbox2 = new DeadbandCommandXboxController(1, 0.4);
 
     // COMMANDS:
@@ -81,11 +81,10 @@ public class RobotContainer {
         xbox2.rightTrigger().onTrue(new BottomAll(wrist, elevator));
         xbox2.leftStick().onTrue(new InstantCommand(elevator::resetEncoders));
         xbox2.rightStick().onTrue(new InstantCommand(wrist::resetEncoders));
-        // xbox.a().onTrue(new InstantCommand(() -> {
-        //   if (!DriverStation.isEnabled()) {
-        //     swerve.resetModulesToAbsolute();
-        //   }
-        // })); // in case first method doesn't work 
+        xbox.a().onTrue(new InstantCommand(() -> {
+          if (DriverStation.isEnabled()) {
+            swerve.resetModulesToAbsolute();
+          } })); // in case first method doesn't work 
     }
 
     public Command getAutonomousCommand() {

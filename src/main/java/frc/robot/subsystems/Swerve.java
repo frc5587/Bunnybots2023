@@ -29,7 +29,7 @@ public class Swerve extends SubsystemBase {
     
     public Field2d field = new Field2d();
     public Double lockedHeading = null;
-    public boolean hasResetToAbsolute = false;
+   // public boolean hasResetToAbsolute = false;
     // private SlewRateLimiter slew = new SlewRateLimiter(SwerveConstants.SLEW_RATE);
 
     public Swerve() {
@@ -185,14 +185,14 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if(!hasResetToAbsolute) {
-            for (SwerveModule swerveModule : mSwerveMods) {
-            if(swerveModule.mAngleMotor.getEncoder().setPosition(0).equals(REVLibError.kOk)) {
-                    swerveModule.resetToAbsolute();
-                }
-            }
-            hasResetToAbsolute = true;
-        }
+        //  if(!hasResetToAbsolute) {
+        //     for (SwerveModule swerveModule : mSwerveMods) {
+        //     if(swerveModule.mAngleMotor.getEncoder().setPosition(0).equals(REVLibError.kOk)) {
+        //             swerveModule.resetToAbsolute();
+        //         }
+        //     }
+        //     hasResetToAbsolute = true; 
+        // }
         
         odometry.update(getYaw(), getModulePositions());
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions()); // ! If this is wrong, its probably a problem with getYaw()
