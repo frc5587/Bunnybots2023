@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -16,7 +16,7 @@ public class Auto {
     public SequentialCommandGroup scoreAndCross;
     public SequentialCommandGroup justScore;
     public ParallelDeadlineGroup justCross;
-    public CommandBase nothing;
+    public Command nothing;
     public Auto(Wrist wrist, Elevator elevator, Swerve swerve, Intake intake) {
         this.scoreAndCross = new SequentialCommandGroup(
             new TopAll(wrist, elevator),

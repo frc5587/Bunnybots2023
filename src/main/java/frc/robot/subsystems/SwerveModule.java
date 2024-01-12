@@ -1,16 +1,16 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.swervelib.math.Conversions;
@@ -26,7 +26,7 @@ public class SwerveModule {
 
     public CANSparkMax mAngleMotor;
     public CANSparkMax mDriveMotor;
-    public CANCoder angleEncoder;
+    public CANcoder angleEncoder;
 
     SimpleMotorFeedforward feedforward = SwerveConstants.DRIVE_FF;
 
@@ -37,7 +37,7 @@ public class SwerveModule {
         ctreConfigs = new CTREConfigs();
         
         /* Angle Encoder Config */
-        angleEncoder = new CANCoder(moduleConstants.cancoderID);
+        angleEncoder = new CANcoder(moduleConstants.cancoderID);
         // angleEncoder = new CANCoder(moduleConstants.cancoderID);
         configAngleEncoder();
         
@@ -90,7 +90,7 @@ public class SwerveModule {
     }
 
     public Rotation2d getCanCoder(){
-        return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
+        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValueAsDouble());
     }
 
     public void resetToAbsolute(){
@@ -100,8 +100,8 @@ public class SwerveModule {
     }
 
     private void configAngleEncoder(){        
-        angleEncoder.configFactoryDefault();
-        angleEncoder.configAllSettings(ctreConfigs.swerveCanCoderConfig);
+        angleEncoder.getConfigurator().apply(new CANcoderConfiguration());
+        angleEncoder.getConfigurator().apply(ctreConfigs.swerveCanCoderConfig);
     }
 
     private void configAngleMotor(){
