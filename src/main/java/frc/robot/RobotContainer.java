@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Auto;
 import frc.robot.commands.BottomAll;
@@ -41,7 +43,7 @@ public class RobotContainer {
 
     // COMMANDS:
     private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getLeftY, xbox::getLeftX,
-           () -> {return -xbox.getRightX();}, () -> false);
+           () -> {return -xbox.getRightX();}, () -> true);
     private final Auto auto = new Auto(wrist, elevator, swerve, intake);
     private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
     // private final TriggerWrist triggerwWrist = new TriggerWrist(wrist, xbox::getLeftTriggerAxis, xbox::getRightTriggerAxis);
@@ -55,6 +57,7 @@ public class RobotContainer {
     SmartDashboard.putData(autoChooser);
     // wrist.setDefaultCommand(triggerwWrist);
     configureBindings();
+    DriverStation.silenceJoystickConnectionWarning(true);
   }
     /* Controller 2 Bindings
         DPad Up = elevatorTop
@@ -80,10 +83,12 @@ public class RobotContainer {
         xbox2.rightTrigger().onTrue(new BottomAll(wrist, elevator));
         xbox2.leftStick().onTrue(new InstantCommand(elevator::resetEncoders));
         xbox2.rightStick().onTrue(new InstantCommand(wrist::resetEncoders));
-        xbox.a().onTrue(new InstantCommand(() -> {
-          if (DriverStation.isEnabled()) {
-            swerve.resetModulesToAbsolute();
-          } })); // in case first method doesn't work 
+        xbox.a().whileTrue(
+          new ParallelCommandGroup(
+            new RunCommand(swerve::stop),
+            new RunCommand(swerve::resetModulesToAbsolute)
+          )
+        ); // in case first method doesn't work 
     }
 
     public Command getAutonomousCommand() {

@@ -87,6 +87,7 @@ public class SwerveModule {
     private Rotation2d getAngle(){
         // return Rotation2d.fromDegrees(Conversions.falconToDegrees(mAngleMotor.getEncoder().getPosition(), SwerveConstants.ANGLE_GEAR_RATIO));
         return Rotation2d.fromDegrees(mAngleMotor.getEncoder().getPosition());
+        // return getCanCoder().minus(angleOffset);
     }
 
     public Rotation2d getCanCoder(){
@@ -96,7 +97,7 @@ public class SwerveModule {
     public void resetToAbsolute(){
         double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
         mAngleMotor.getEncoder().setPosition(absolutePosition);
-        setAngle(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+        // setAngle(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
     }
 
     private void configAngleEncoder(){        
@@ -153,5 +154,9 @@ public class SwerveModule {
             -Conversions.falconToMeters(mDriveMotor.getEncoder().getPosition(), SwerveConstants.WHEEL_CIRCUMFERENCE_METERS, SwerveConstants.DRIVE_GEAR_RATIO), 
             getAngle()
         );
+    }
+
+    public void stop() {
+        setDesiredState(getState(), true);
     }
 }

@@ -80,7 +80,7 @@ public class COTSFalconSwerveConstants {
 
         boolean driveMotorInvert = false;
         boolean angleMotorInvert = false;
-        boolean canCoderInvert = false;
+        boolean canCoderInvert = true;
         return new COTSFalconSwerveConstants(wheelDiameter, angleGearRatio, driveGearRatio, angleKP, angleKI, angleKD, angleKF, driveMotorInvert, angleMotorInvert, canCoderInvert);
     }
 
