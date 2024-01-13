@@ -7,17 +7,15 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ElevConstants;
 
 public class Elevator extends ElevatorBase {
     private static CANSparkMax leftMotor = new CANSparkMax(ElevConstants.LEFT_MOTOR, MotorType.kBrushless);
     private static CANSparkMax rightMotor = new CANSparkMax(ElevConstants.RIGHT_MOTOR, MotorType.kBrushless);
-    private static MotorControllerGroup motors = new MotorControllerGroup(leftMotor, rightMotor);
 
     public Elevator() {
-        super(ElevConstants.constants, motors);
+        super(ElevConstants.constants, leftMotor);
         SmartDashboard.putBoolean("ELEVATOR OUTPUTENABLED", true);
         super.pidController = getController();
         configureMotors();
@@ -66,8 +64,10 @@ public class Elevator extends ElevatorBase {
         leftMotor.setSmartCurrentLimit(ElevConstants.SUPPLY_LIMIT, ElevConstants.STATOR_LIMIT);
         rightMotor.setSmartCurrentLimit(ElevConstants.SUPPLY_LIMIT, ElevConstants.STATOR_LIMIT);
 
+        rightMotor.follow(leftMotor);
+
         leftMotor.setIdleMode(IdleMode.kBrake);
-        rightMotor.setIdleMode(IdleMode.kCoast);
+        rightMotor.setIdleMode(IdleMode.kBrake);
 
         leftMotor.burnFlash();
         rightMotor.burnFlash();

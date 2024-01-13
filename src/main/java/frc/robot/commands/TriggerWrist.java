@@ -3,11 +3,11 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.WristConstants;
 import frc.robot.subsystems.Wrist;
 
-public class TriggerWrist extends CommandBase {
+public class TriggerWrist extends Command {
     private Wrist wrist;
     private DoubleSupplier downSupplier, upSupplier;
 

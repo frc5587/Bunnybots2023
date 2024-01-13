@@ -1,10 +1,10 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Wrist;
 
 // Manual WristDown
-public class WristDown extends CommandBase{
+public class WristDown extends Command {
 
     private Wrist wrist;
 

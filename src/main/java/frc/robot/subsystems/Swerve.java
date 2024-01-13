@@ -29,8 +29,6 @@ public class Swerve extends SubsystemBase {
     
     public Field2d field = new Field2d();
     public Double lockedHeading = null;
-   // public boolean hasResetToAbsolute = false;
-    // private SlewRateLimiter slew = new SlewRateLimiter(SwerveConstants.SLEW_RATE);
 
     public Swerve() {
         this.gyro = new AHRS();
@@ -45,7 +43,7 @@ public class Swerve extends SubsystemBase {
         zeroGyro();
 
         this.odometry = new SwerveDriveOdometry(SwerveConstants.SWERVE_KINEMATICS, getYaw(), getModulePositions());
-        this.poseEstimator = new SwerveDrivePoseEstimator(kinematics, getYaw(), getModulePositions(), getOdometryPose()); // Vision standard deviations.
+        this.poseEstimator = new SwerveDrivePoseEstimator(kinematics, getYaw(), getModulePositions(), getOdometryPose());
 
         SmartDashboard.putData("Swerve Pose Field", field);
         SmartDashboard.putBoolean("Swerve Brake Mode", true);
@@ -63,7 +61,7 @@ public class Swerve extends SubsystemBase {
                         rotation, 
                         getYaw())
                     : new ChassisSpeeds(
-                        translation.getX(), // -translation.getX(), 
+                        translation.getX(),
                         translation.getY(), 
                         rotation));
         SmartDashboard.putNumber("Translation X", translation.getX());
@@ -141,19 +139,14 @@ public class Swerve extends SubsystemBase {
 
     public double getRoll() {
         return gyro.getRoll();
-        // return 0;
     }
 
     public double getPitch() {
         return gyro.getPitch();
-        // return 0;
     }
 
     public Rotation2d getYaw() {
         return (SwerveConstants.INVERT_GYRO) ? Rotation2d.fromDegrees(-gyro.getYaw()) : Rotation2d.fromDegrees(gyro.getYaw());
-        // return odometry.getPoseMeters().getRotation();
-        // return new Rotation2d();
-        // return getYawFromOdom();
     }
 
     public Rotation2d getYawFromOdom() {
@@ -167,38 +160,13 @@ public class Swerve extends SubsystemBase {
     }
 
     public void stop() {
-        // setChassisSpeeds(new ChassisSpeeds());
         for (SwerveModule mod : mSwerveMods) {
             mod.stop();
         }
     }
 
-    /**
-     * Set the robot's X speed in m/s.
-     * @param speedMetersPerSecond speed to crawl at in m/s. Set to 0 to use speed from constants.
-     */
-
-    // private boolean modsStopped() {
-    //     int stoppedModules = 0;
-    //     for(SwerveModuleState state : getModuleStates()) {
-    //         if(state.speedMetersPerSecond < 0.1) {
-    //             stoppedModules ++;
-    //         }
-    //     }
-    //     return stoppedModules == 4;
-    // }
-
     @Override
     public void periodic() {
-        //  if(!hasResetToAbsolute) {
-        //     for (SwerveModule swerveModule : mSwerveMods) {
-        //     if(swerveModule.mAngleMotor.getEncoder().setPosition(0).equals(REVLibError.kOk)) {
-        //             swerveModule.resetToAbsolute();
-        //         }
-        //     }
-        //     hasResetToAbsolute = true; 
-        // }
-        
         odometry.update(getYaw(), getModulePositions());
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), getYaw(), getModulePositions()); // ! If this is wrong, its probably a problem with getYaw()
         poseHistory.addSample(Timer.getFPGATimestamp(), getPose());
