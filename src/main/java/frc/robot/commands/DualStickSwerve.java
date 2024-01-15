@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.subsystems.Swerve;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -32,8 +32,8 @@ public class DualStickSwerve extends Command {
         SmartDashboard.putNumber("StrafeSupplier", strafeSup.getAsDouble());
         SmartDashboard.putNumber("RotationSupplier", rotationSup.getAsDouble());
         
-        Translation2d translation = new Translation2d(translationSup.getAsDouble(), -strafeSup.getAsDouble()).times(SwerveConstants.MAX_SPEED);
-        double rotation = rotationSup.getAsDouble() * SwerveConstants.MAX_ANGULAR_VELOCITY;
+        Translation2d translation = new Translation2d(translationSup.getAsDouble(), -strafeSup.getAsDouble()).times(DrivetrainConstants.MAX_SPEED);
+        double rotation = rotationSup.getAsDouble() * DrivetrainConstants.MAX_ANGULAR_VELOCITY;
         
         swerve.drive(translation, rotation,
                 fieldRelativeSup.getAsBoolean(),

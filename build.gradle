@@ -73,7 +73,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 
-    implementation 'org.frc5587:TitanLib:2024-SNAPSHOT'
+    implementation 'org.frc5587:TitanLib:swerve-SNAPSHOT'
 }
 
 test {
