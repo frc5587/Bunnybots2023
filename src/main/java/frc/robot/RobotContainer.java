@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.frc5587.lib.control.DeadbandCommandXboxController;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,8 +40,8 @@ public class RobotContainer {
     private final Wrist wrist = new Wrist();
 
     // CONTROLLERS:
-    private final CommandXboxController xbox = new CommandXboxController(0);
-    private final CommandXboxController xbox2 = new CommandXboxController(1);
+    private final DeadbandCommandXboxController xbox = new DeadbandCommandXboxController(0, 0.2);
+    private final DeadbandCommandXboxController xbox2 = new DeadbandCommandXboxController(1, 0.2);
 
     // COMMANDS:
     private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getLeftY, xbox::getLeftX,

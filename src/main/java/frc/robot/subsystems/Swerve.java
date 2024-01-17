@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 import org.frc5587.lib.subsystems.SwerveBase;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
 
@@ -22,5 +25,19 @@ public class Swerve extends SwerveBase {
 
     public Swerve() {
         super(DrivetrainConstants.SWERVE_CONSTANTS, swerveModules);
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+        SmartDashboard.putNumber("CANcoder val", swerveModules[0].getAbsoluteEncoderValue().getDegrees());
+        SmartDashboard.putNumber("Non-Converted Val", swerveModules[0].getAngleMotorEncoderPosition().getDegrees());
+        SmartDashboard.putNumber("Converted Val", swerveModules[0].getAngle().getDegrees());
+        SmartDashboard.putNumber("Gyro yaw", gyro.getYaw().getDegrees());
+        SmartDashboard.putNumber("Yaw offset", gyro.getYawZeroOffset().getDegrees());
+        if(SmartDashboard.getBoolean("Zero Yaw", true)) {
+                gyro.zeroYaw();
+        }
+        SmartDashboard.putBoolean("Zero Yaw", false);
     }
 }

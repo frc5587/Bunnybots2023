@@ -133,7 +133,7 @@ public final class Constants {
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(204.257);
             public static final boolean ENCODER_INVERTED = false;
             public static final SwerveModuleConstants MODULE_CONSTANTS = new SwerveModuleConstants(
-                    0, WHEEL_CIRCUMFERENCE_METERS, MAX_SPEED, ANGLE_ENCODER_CPR, DRIVE_ENCODER_CPR, ANGLE_GEAR_RATIO,
+                    0, ANGLE_OFFSET, WHEEL_CIRCUMFERENCE_METERS, MAX_SPEED, ANGLE_ENCODER_CPR, DRIVE_ENCODER_CPR, ANGLE_GEAR_RATIO,
                     DRIVE_GEAR_RATIO);
         }
 
@@ -145,7 +145,7 @@ public final class Constants {
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(297.971);
             public static final boolean ENCODER_INVERTED = false;
             public static final SwerveModuleConstants MODULE_CONSTANTS = new SwerveModuleConstants(
-                    1, WHEEL_CIRCUMFERENCE_METERS, MAX_SPEED, ANGLE_ENCODER_CPR, DRIVE_ENCODER_CPR, ANGLE_GEAR_RATIO,
+                    1, ANGLE_OFFSET, WHEEL_CIRCUMFERENCE_METERS, MAX_SPEED, ANGLE_ENCODER_CPR, DRIVE_ENCODER_CPR, ANGLE_GEAR_RATIO,
                     DRIVE_GEAR_RATIO);
         }
 
@@ -157,7 +157,7 @@ public final class Constants {
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(292.852);
             public static final boolean ENCODER_INVERTED = false;
             public static final SwerveModuleConstants MODULE_CONSTANTS = new SwerveModuleConstants(
-                    2, WHEEL_CIRCUMFERENCE_METERS, MAX_SPEED, ANGLE_ENCODER_CPR, DRIVE_ENCODER_CPR, ANGLE_GEAR_RATIO,
+                    2, ANGLE_OFFSET, WHEEL_CIRCUMFERENCE_METERS, MAX_SPEED, ANGLE_ENCODER_CPR, DRIVE_ENCODER_CPR, ANGLE_GEAR_RATIO,
                     DRIVE_GEAR_RATIO);
         }
 
@@ -169,7 +169,7 @@ public final class Constants {
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(32.256);
             public static final boolean ENCODER_INVERTED = false;
             public static final SwerveModuleConstants MODULE_CONSTANTS = new SwerveModuleConstants(
-                    3, WHEEL_CIRCUMFERENCE_METERS, MAX_SPEED, ANGLE_ENCODER_CPR, DRIVE_ENCODER_CPR, ANGLE_GEAR_RATIO,
+                    3, ANGLE_OFFSET, WHEEL_CIRCUMFERENCE_METERS, MAX_SPEED, ANGLE_ENCODER_CPR, DRIVE_ENCODER_CPR, ANGLE_GEAR_RATIO,
                     DRIVE_GEAR_RATIO);
         }
         

@@ -14,11 +14,14 @@ import frc.robot.Constants.DrivetrainConstants;
 public class SwerveModule extends SwerveModuleBase {
     private CANSparkMax angleMotor, driveMotor;
     private CANcoder angleEncoder;
-    public SwerveModule(SwerveModuleConstants moduleConstants, CANSparkMax angleMotor, CANSparkMax driveMotor, CANcoder angleEncoder) {
+    public SwerveModule(SwerveModuleConstants moduleConstants, CANSparkMax driveMotor, CANSparkMax angleMotor, CANcoder angleEncoder) {
         super(moduleConstants, angleMotor, driveMotor);
         this.angleMotor = angleMotor;
         this.driveMotor = driveMotor;
         this.angleEncoder = angleEncoder;
+        configureAngleEncoder();
+        configureAngleMotor();
+        configureDriveMotor();
     }
 
     @Override
@@ -28,12 +31,12 @@ public class SwerveModule extends SwerveModuleBase {
 
     @Override
     protected void setAngleMotorPosition(Rotation2d position) {
-        angleMotor.getPIDController().setReference(position.getDegrees(), ControlType.kPosition);
+        angleMotor.getPIDController().setReference(position.getRotations(), ControlType.kPosition);
     }
 
     @Override
     protected void setAngleMotorEncoderPosition(Rotation2d position) {
-        angleMotor.getEncoder().setPosition(position.getDegrees());
+        angleMotor.getEncoder().setPosition(position.getRotations());
     }
 
     @Override
@@ -62,6 +65,7 @@ public class SwerveModule extends SwerveModuleBase {
         angleMotor.setSmartCurrentLimit(DrivetrainConstants.ANGLE_CONT_LIMIT);
         angleMotor.setSecondaryCurrentLimit(DrivetrainConstants.ANGLE_PEAK_LIMIT);
         // angleMotor.getEncoder().setPositionConversionFactor(360 / DrivetrainConstants.ANGLE_GEAR_RATIO);
+        angleMotor.getEncoder().setPositionConversionFactor(-1.);
         angleMotor.setInverted(DrivetrainConstants.ANGLE_MOTOR_INVERTED);
         angleMotor.setIdleMode(IdleMode.kCoast);
         angleMotor.getPIDController().setPositionPIDWrappingEnabled(true);
