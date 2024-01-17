@@ -61,7 +61,7 @@ public class SwerveModule extends SwerveModuleBase {
         angleMotor.getPIDController().setFF(DrivetrainConstants.ANGLE_FPID.kF);
         angleMotor.setSmartCurrentLimit(DrivetrainConstants.ANGLE_CONT_LIMIT);
         angleMotor.setSecondaryCurrentLimit(DrivetrainConstants.ANGLE_PEAK_LIMIT);
-        angleMotor.getEncoder().setPositionConversionFactor(360 / DrivetrainConstants.ANGLE_GEAR_RATIO);
+        // angleMotor.getEncoder().setPositionConversionFactor(360 / DrivetrainConstants.ANGLE_GEAR_RATIO);
         angleMotor.setInverted(DrivetrainConstants.ANGLE_MOTOR_INVERTED);
         angleMotor.setIdleMode(IdleMode.kCoast);
         angleMotor.getPIDController().setPositionPIDWrappingEnabled(true);
@@ -89,13 +89,13 @@ public class SwerveModule extends SwerveModuleBase {
     }
 
     @Override
-    protected double getAngleMotorEncoderPosition() {
-        return angleMotor.getEncoder().getPosition();
+    protected Rotation2d getAngleMotorEncoderPosition() {
+        return Rotation2d.fromRotations(angleMotor.getEncoder().getPosition());
     }
 
     @Override
-    protected double getDriveMotorEncoderPosition() {
-        return driveMotor.getEncoder().getPosition();
+    protected Rotation2d getDriveMotorEncoderPosition() {
+        return Rotation2d.fromRotations(driveMotor.getEncoder().getPosition());
     }
 
     @Override
