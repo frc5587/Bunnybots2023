@@ -14,8 +14,11 @@ import frc.robot.Constants.DrivetrainConstants;
 public class SwerveModule extends SwerveModuleBase {
     private CANSparkMax angleMotor, driveMotor;
     private CANcoder angleEncoder;
-    public SwerveModule(SwerveModuleConstants moduleConstants, CANSparkMax angleMotor, CANSparkMax driveMotor) {
+    public SwerveModule(SwerveModuleConstants moduleConstants, CANSparkMax angleMotor, CANSparkMax driveMotor, CANcoder angleEncoder) {
         super(moduleConstants, angleMotor, driveMotor);
+        this.angleMotor = angleMotor;
+        this.driveMotor = driveMotor;
+        this.angleEncoder = angleEncoder;
     }
 
     @Override
