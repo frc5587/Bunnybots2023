@@ -45,7 +45,7 @@ public class RobotContainer {
 
     // COMMANDS:
     private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getLeftY, xbox::getLeftX,
-           () -> {return -xbox.getRightX();}, () -> true);
+           () -> {return -xbox.getRightX();}, () -> xbox.rightBumper().negate().getAsBoolean());
     private final Auto auto = new Auto(wrist, elevator, swerve, intake);
     private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
     // private final TriggerWrist triggerwWrist = new TriggerWrist(wrist, xbox::getLeftTriggerAxis, xbox::getRightTriggerAxis);
