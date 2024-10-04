@@ -46,7 +46,6 @@ public class RobotContainer {
            () -> {return -xbox.getRightX();}, () -> true);
     private final Auto auto = new Auto(wrist, elevator, swerve, intake);
     private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-    // private final TriggerWrist triggerwWrist = new TriggerWrist(wrist, xbox::getLeftTriggerAxis, xbox::getRightTriggerAxis);
             
   public RobotContainer() {
     swerve.setDefaultCommand(driveCommand);
@@ -60,13 +59,18 @@ public class RobotContainer {
     DriverStation.silenceJoystickConnectionWarning(true);
   }
     /* Controller 2 Bindings
-        DPad Up = elevatorTop
-        DPad Down = elevatorBottom
+        DPad Up = Elevator Top Position
+        DPad Down = Elevator Bottom Position
+        DPad Left/Right = Elevator Middle Position
         Right Bumper = Forward Intake
         Left Bumper = Backward Intake
-        A = wristTop
-        B = wristMid
-        Y = wristBottom
+        A = Wrist Top Position
+        B = Wrist Middle Position
+        Y = Wrist Bottom Position
+        Left Trigger = Top All (Wrist, Elevator)
+        Right Trigger = Bottom All (Wrist, Elevator)
+        Left Stick (pressed down) = Reset Elevator Encoders
+        Right Stick (pressed down) = Reset Wrist Encoders
     */
     private void configureBindings() {
         xbox2.povUp().onTrue(new InstantCommand(elevator::elevatorTop));

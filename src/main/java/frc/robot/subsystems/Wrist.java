@@ -35,7 +35,6 @@ public class Wrist extends PivotingArmBase {
         enable();
         // resetEncoders();
         setGoal(0);
-        // throughBore.setDutyCycleRange(1./1024., 1023./1024.); // change depending on us range
     }
 
     public DigitalInput getFrontLimitSwitch() {
@@ -48,7 +47,6 @@ public class Wrist extends PivotingArmBase {
 
     @Override
     public double getEncoderPosition() {
-        // return -(throughBore.getAbsolutePosition() - throughBore.getPositionOffset());
         return motor.getEncoder().getPosition();
     }
 
@@ -98,10 +96,5 @@ public class Wrist extends PivotingArmBase {
             resetEncoders();
         }
         SmartDashboard.putBoolean("Reset Encoders", false);
-
-        // if(!throughBore.isConnected()) {
-        //     this.disable();
-        //     this.stop();
-        // }
     }
 }

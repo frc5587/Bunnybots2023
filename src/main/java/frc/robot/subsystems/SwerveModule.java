@@ -126,7 +126,7 @@ public class SwerveModule {
         mDriveMotor.getEncoder().setPositionConversionFactor(SwerveConstants.WHEEL_CIRCUMFERENCE_METERS / SwerveConstants.DRIVE_GEAR_RATIO);
         mDriveMotor.getEncoder().setVelocityConversionFactor((SwerveConstants.WHEEL_CIRCUMFERENCE_METERS / SwerveConstants.DRIVE_GEAR_RATIO) / 60.);
         mDriveMotor.getEncoder().setPosition(0);
-        mAngleMotor.burnFlash();
+        mDriveMotor.burnFlash();
     }
 
     public SwerveModuleState getState(){

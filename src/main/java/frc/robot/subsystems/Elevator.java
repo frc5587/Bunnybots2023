@@ -2,24 +2,30 @@ package frc.robot.subsystems;
 
 import org.frc5587.lib.subsystems.ElevatorBase;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ElevConstants;
 
 public class Elevator extends ElevatorBase {
-    private static CANSparkMax leftMotor = new CANSparkMax(ElevConstants.LEFT_MOTOR, MotorType.kBrushless);
-    private static CANSparkMax rightMotor = new CANSparkMax(ElevConstants.RIGHT_MOTOR, MotorType.kBrushless);
+    private CANSparkMax leftMotor;
+    private CANSparkMax rightMotor;
 
-    public Elevator() {
+    public Elevator(CANSparkMax leftMotor, CANSparkMax rightMotor) {
         super(ElevConstants.constants, leftMotor);
+        this.leftMotor = leftMotor;
+        this.rightMotor = rightMotor;
         SmartDashboard.putBoolean("ELEVATOR OUTPUTENABLED", true);
         super.pidController = getController();
         configureMotors();
         enable();
+    }
+
+    public Elevator() {
+        this(new CANSparkMax(ElevConstants.LEFT_MOTOR, MotorType.kBrushless), new CANSparkMax(ElevConstants.RIGHT_MOTOR, MotorType.kBrushless));
     }
 
     public void elevatorUpSlow() {
@@ -29,15 +35,19 @@ public class Elevator extends ElevatorBase {
     public void elevatorDownSlow() {
         setVoltage(-2);
     }
-
-    public void elevatorUp() {
+    
+    public void elevatorTop() {
         setGoal(ElevConstants.TOP_POSITION);
     }
 
-    public void elevatorDown() {
+    public void elevatorBottom() {
         setGoal(ElevConstants.BOTTOM_POSITION);
     }
-    
+
+    public void elevatorMid() {
+        setGoal(ElevConstants.MIDDLE_POSITION);
+    }
+
     @Override
     public double getEncoderPosition() {
         return leftMotor.getEncoder().getPosition();
@@ -52,7 +62,7 @@ public class Elevator extends ElevatorBase {
     public void setEncoderPosition(double position) {
         leftMotor.getEncoder().setPosition(position);
     }
-
+    
     @Override
     public void configureMotors() {
         leftMotor.restoreFactoryDefaults();
@@ -123,16 +133,5 @@ public class Elevator extends ElevatorBase {
         }
     }
 
-    public void elevatorTop() {
-        setGoal(ElevConstants.TOP_POSITION);
-    }
-
-    public void elevatorBottom() {
-        setGoal(ElevConstants.BOTTOM_POSITION);
-    }
-
-    public void elevatorMid() {
-        setGoal(ElevConstants.MIDDLE_POSITION);
-    }
 }
 
