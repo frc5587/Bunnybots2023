@@ -4,60 +4,98 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.Auto;
+import frc.robot.commands.BottomAll;
+import frc.robot.commands.DualStickSwerve;
+import frc.robot.commands.TopAll;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Wrist;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    // SUBSYSTEMS:
+    private final Elevator elevator = new Elevator();
+    protected final Swerve swerve = new Swerve();
+    private final Intake intake = new Intake();
+    private final Wrist wrist = new Wrist();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+    // CONTROLLERS:
+    private final CommandXboxController xbox = new CommandXboxController(0);
+    private final CommandXboxController xbox2 = new CommandXboxController(1);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+    // COMMANDS:
+    private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getLeftY, xbox::getLeftX,
+           () -> {return -xbox.getRightX();}, () -> true);
+    private final Auto auto = new Auto(wrist, elevator, swerve, intake);
+    private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+            
   public RobotContainer() {
-    // Configure the trigger bindings
+    swerve.setDefaultCommand(driveCommand);
+    autoChooser.addOption("Score and Cross", auto.scoreAndCross);
+    autoChooser.addOption("Just Score", auto.justScore);
+    autoChooser.addOption("Just Cross", auto.justCross);
+    autoChooser.setDefaultOption("Do Nothing", auto.nothing);
+    SmartDashboard.putData(autoChooser);
+    // wrist.setDefaultCommand(triggerwWrist);
     configureBindings();
+    DriverStation.silenceJoystickConnectionWarning(true);
   }
+    /* Controller 2 Bindings
+        DPad Up = Elevator Top Position
+        DPad Down = Elevator Bottom Position
+        DPad Left/Right = Elevator Middle Position
+        Right Bumper = Forward Intake
+        Left Bumper = Backward Intake
+        A = Wrist Top Position
+        B = Wrist Middle Position
+        Y = Wrist Bottom Position
+        Left Trigger = Top All (Wrist, Elevator)
+        Right Trigger = Bottom All (Wrist, Elevator)
+        Left Stick (pressed down) = Reset Elevator Encoders
+        Right Stick (pressed down) = Reset Wrist Encoders
+    */
+    private void configureBindings() {
+        xbox2.povUp().onTrue(new InstantCommand(elevator::elevatorTop));
+        xbox2.povLeft().onTrue(new InstantCommand(elevator::elevatorMid));
+        xbox2.povRight().onTrue(new InstantCommand(elevator::elevatorMid));
+        xbox2.povDown().onTrue(new InstantCommand(elevator::elevatorBottom));
+        xbox2.y().onTrue(new InstantCommand(wrist::wristTop));
+        xbox2.b().onTrue(new InstantCommand(wrist::wristMid));
+        xbox2.x().onTrue(new InstantCommand(wrist::wristMid));
+        xbox2.a().onTrue(new InstantCommand(wrist::wristBottom));
+        xbox2.rightBumper().whileTrue(new InstantCommand(intake::forward)).onFalse(new InstantCommand(intake::stop));
+        xbox2.leftBumper().whileTrue(new InstantCommand(intake::backward)).onFalse(new InstantCommand(intake::stop));
+        xbox2.leftTrigger().onTrue(new TopAll(wrist, elevator));
+        xbox2.rightTrigger().onTrue(new BottomAll(wrist, elevator));
+        xbox2.leftStick().onTrue(new InstantCommand(elevator::resetEncoders));
+        xbox2.rightStick().onTrue(new InstantCommand(wrist::resetEncoders));
+        xbox.a().whileTrue(
+          new ParallelCommandGroup(
+            new RunCommand(swerve::stop),
+            new RunCommand(swerve::resetModulesToAbsolute)
+          )
+        ); // in case first method doesn't work 
+    }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
-  private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-  }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
-  }
+    public Command getAutonomousCommand() {
+        return autoChooser.getSelected();
+    }
 }
