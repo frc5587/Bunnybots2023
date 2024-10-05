@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.frc5587.lib.control.DeadbandCommandXboxController;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,13 +13,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.Auto;
 import frc.robot.commands.BottomAll;
 import frc.robot.commands.DualStickSwerve;
 import frc.robot.commands.TopAll;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Wrist;
 
@@ -32,18 +34,19 @@ import frc.robot.subsystems.Wrist;
  */
 public class RobotContainer {
     // SUBSYSTEMS:
+    private final Limelight limelight = new Limelight();
     private final Elevator elevator = new Elevator();
-    protected final Swerve swerve = new Swerve();
+    protected final Swerve swerve = new Swerve(limelight);
     private final Intake intake = new Intake();
     private final Wrist wrist = new Wrist();
 
     // CONTROLLERS:
-    private final CommandXboxController xbox = new CommandXboxController(0);
-    private final CommandXboxController xbox2 = new CommandXboxController(1);
+    private final DeadbandCommandXboxController xbox = new DeadbandCommandXboxController(0, 0.2);
+    private final DeadbandCommandXboxController xbox2 = new DeadbandCommandXboxController(1, 0.2);
 
     // COMMANDS:
     private final DualStickSwerve driveCommand = new DualStickSwerve(swerve, xbox::getLeftY, xbox::getLeftX,
-           () -> {return -xbox.getRightX();}, () -> true);
+           () -> {return -xbox.getRightX();}, () -> xbox.rightBumper().negate().getAsBoolean());
     private final Auto auto = new Auto(wrist, elevator, swerve, intake);
     private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
             

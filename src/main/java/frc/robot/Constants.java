@@ -6,6 +6,12 @@ package frc.robot;
 
 import org.frc5587.lib.pid.FPID;
 import org.frc5587.lib.subsystems.ElevatorBase.ElevatorConstants;
+import org.frc5587.lib.subsystems.SwerveBase.SwerveConstants;
+import org.frc5587.lib.subsystems.SwerveModuleBase.SwerveModuleConstants;
+
+import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
@@ -17,7 +23,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import frc.robot.util.swervelib.util.COTSFalconSwerveConstants;
-import frc.robot.util.swervelib.util.SwerveModuleConstants;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -33,11 +38,11 @@ import frc.robot.util.swervelib.util.SwerveModuleConstants;
  */
 public final class Constants {
 
-    public static final class SwerveConstants {
+    public static final class DrivetrainConstants {
         public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
         public static final COTSFalconSwerveConstants CHOSEN_MODULE = 
-            COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
+            COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L1);
 
         /* Drivetrain Constants */
         public static final double TRACK_WIDTH = Units.inchesToMeters(22.5); // distance from left wheel to right wheel
@@ -55,6 +60,8 @@ public final class Constants {
                 new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0),
                 new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0));
 
+        public static final int DRIVE_ENCODER_CPR = 1;
+        public static final int ANGLE_ENCODER_CPR = 1;
         /* Module Gear Ratios */
         public static final double DRIVE_GEAR_RATIO = CHOSEN_MODULE.driveGearRatio;
         public static final double ANGLE_GEAR_RATIO = CHOSEN_MODULE.angleGearRatio;
@@ -65,6 +72,10 @@ public final class Constants {
 
         /* Angle Encoder Invert */
         public static final boolean CANCODER_INVERTED = CHOSEN_MODULE.canCoderInvert;
+        public static final MagnetSensorConfigs CANCODER_CONFIG = new MagnetSensorConfigs()
+                .withAbsoluteSensorRange(AbsoluteSensorRangeValue.Unsigned_0To1)
+                .withSensorDirection(CANCODER_INVERTED ? SensorDirectionValue.Clockwise_Positive
+                    : SensorDirectionValue.CounterClockwise_Positive);
 
         /* Swerve Current Limiting */
         public static final int DRIVE_CONT_LIMIT = 35;
@@ -121,8 +132,9 @@ public final class Constants {
             public static final int CANCODER_ID = 50;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(204.257);
             public static final boolean ENCODER_INVERTED = false;
-            public static final SwerveModuleConstants MODULECONSTANTS = new SwerveModuleConstants(DRIVE_ID, ANGLE_ID,
-                    CANCODER_ID, ANGLE_OFFSET);
+            public static final SwerveModuleConstants MODULE_CONSTANTS = new SwerveModuleConstants(
+                    0, WHEEL_CIRCUMFERENCE_METERS, MAX_SPEED, ANGLE_ENCODER_CPR, DRIVE_ENCODER_CPR, ANGLE_GEAR_RATIO,
+                    DRIVE_GEAR_RATIO);
         }
 
         /* Front Right Module - Module 1 */
@@ -132,8 +144,9 @@ public final class Constants {
             public static final int CANCODER_ID = 51;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(297.971);
             public static final boolean ENCODER_INVERTED = false;
-            public static final SwerveModuleConstants MODULECONSTANTS = new SwerveModuleConstants(DRIVE_ID, ANGLE_ID,
-                    CANCODER_ID, ANGLE_OFFSET);
+            public static final SwerveModuleConstants MODULE_CONSTANTS = new SwerveModuleConstants(
+                    1, WHEEL_CIRCUMFERENCE_METERS, MAX_SPEED, ANGLE_ENCODER_CPR, DRIVE_ENCODER_CPR, ANGLE_GEAR_RATIO,
+                    DRIVE_GEAR_RATIO);
         }
 
         /* Back Left Module - Module 2 */
@@ -143,8 +156,9 @@ public final class Constants {
             public static final int CANCODER_ID = 52;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(292.852);
             public static final boolean ENCODER_INVERTED = false;
-            public static final SwerveModuleConstants MODULECONSTANTS = new SwerveModuleConstants(DRIVE_ID, ANGLE_ID,
-                    CANCODER_ID, ANGLE_OFFSET);
+            public static final SwerveModuleConstants MODULE_CONSTANTS = new SwerveModuleConstants(
+                    2, WHEEL_CIRCUMFERENCE_METERS, MAX_SPEED, ANGLE_ENCODER_CPR, DRIVE_ENCODER_CPR, ANGLE_GEAR_RATIO,
+                    DRIVE_GEAR_RATIO);
         }
 
         /* Back Right Module - Module 3 */
@@ -154,9 +168,13 @@ public final class Constants {
             public static final int CANCODER_ID = 53;
             public static final Rotation2d ANGLE_OFFSET = Rotation2d.fromDegrees(32.256);
             public static final boolean ENCODER_INVERTED = false;
-            public static final SwerveModuleConstants MODULECONSTANTS = new SwerveModuleConstants(DRIVE_ID, ANGLE_ID,
-                    CANCODER_ID, ANGLE_OFFSET);
+            public static final SwerveModuleConstants MODULE_CONSTANTS = new SwerveModuleConstants(
+                    3, WHEEL_CIRCUMFERENCE_METERS, MAX_SPEED, ANGLE_ENCODER_CPR, DRIVE_ENCODER_CPR, ANGLE_GEAR_RATIO,
+                    DRIVE_GEAR_RATIO);
         }
+        
+        public static final SwerveModuleConstants[] ALL_MODULE_CONSTANTS = {Mod0.MODULE_CONSTANTS, Mod1.MODULE_CONSTANTS, Mod2.MODULE_CONSTANTS, Mod3.MODULE_CONSTANTS};
+        public static final SwerveConstants SWERVE_CONSTANTS = new SwerveConstants(ALL_MODULE_CONSTANTS, SWERVE_KINEMATICS, INVERT_GYRO, MAX_SPEED);
     }
 
     public static class OperatorConstants {
